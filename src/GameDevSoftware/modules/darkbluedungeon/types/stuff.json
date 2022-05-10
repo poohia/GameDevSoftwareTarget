@@ -1,6 +1,6 @@
 {
   "name": "Stuff",
-  "key": "stuff",
+  "type": "stuff",
   "description": "stuff",
   "core": {
     "title": "string",
