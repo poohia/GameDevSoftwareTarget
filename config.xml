@@ -34,7 +34,7 @@
     <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png"></splash>
   </platform>
   <platform name="ios">
-    <preference name="WKWebViewOnly" value="true"/>
+    <preference name="WKWebViewOnly"></preference>
     <allow-intent href="itms:*"></allow-intent>
     <allow-intent href="itms-apps:*"></allow-intent>
     <icon height="57" src="resources/ios/icon/icon.png" width="57"></icon>

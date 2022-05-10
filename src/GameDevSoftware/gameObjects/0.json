@@ -1,0 +1,28 @@
+{
+  "_id": 0,
+  "_type": "stuff",
+  "title": "@t:hat_holes",
+  "level": 1,
+  "type": "hat",
+  "moneyValue": 100,
+  "statistics": [
+    {
+      "type": "life",
+      "value": 50
+    },
+    {
+      "type": "initiative",
+      "value": 70
+    }
+  ],
+  "elements": [
+    { "type": "ice", "value": 2 },
+    { "type": "earth", "value": 2 },
+    { "type": "wind", "value": 2 }
+  ],
+  "resistors": [
+    { "type": "ice", "value": 2 },
+    { "type": "earth", "value": 2 },
+    { "type": "wind", "value": 2 }
+  ]
+}
