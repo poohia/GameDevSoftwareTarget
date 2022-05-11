@@ -60,11 +60,11 @@
   },
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {}
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-wkwebview-file-xhr": {}
     },
     "platforms": [
-      "electron",
-      "android"
+      "electron"
     ]
   }
 }

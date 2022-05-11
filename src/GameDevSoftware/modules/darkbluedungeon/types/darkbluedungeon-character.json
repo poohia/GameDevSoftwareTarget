@@ -1,7 +1,7 @@
 {
-  "name": "Stuff",
-  "type": "stuff",
-  "description": "stuff",
+  "name": "Characters",
+  "type": "darkbluedungeon-character",
+  "description": "create characters",
   "core": {
     "title": "string",
     "level": "number",
@@ -10,6 +10,7 @@
       "label": "Money value for this stuff",
       "description": "value on gold"
     },
+    "image": "image",
     "stuffType": ["hat", "tunic", "gloves", "boots", "weapon"],
     "statistics": {
       "multiple": true,
