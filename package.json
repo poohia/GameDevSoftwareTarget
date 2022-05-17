@@ -64,7 +64,8 @@
       "cordova-plugin-wkwebview-file-xhr": {}
     },
     "platforms": [
-      "electron"
+      "electron",
+      "android"
     ]
   }
 }

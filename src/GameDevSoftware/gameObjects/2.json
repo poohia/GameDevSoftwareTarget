@@ -1,32 +1,14 @@
 {
+  "_title": "@t:MENU_title",
+  "_type": "darkbluedungeon-character",
   "_id": 2,
-  "_type": "darkbluedungeon-stuff",
-  "_title": "Chapeau",
-  "level": 1,
-  "type": "hat",
-  "moneyValue": 100,
-  "image": {
-    "src": "amulet.png",
-    "module": "darkbluedungeon"
-  },
-  "statistics": [
-    {
-      "type": "life",
-      "value": 50
-    },
-    {
-      "type": "initiative",
-      "value": 70
-    }
-  ],
-  "elements": [
-    { "type": "ice", "value": 2 },
-    { "type": "earth", "value": 2 },
-    { "type": "wind", "value": 2 }
-  ],
-  "resistors": [
-    { "type": "ice", "value": 2 },
-    { "type": "earth", "value": 2 },
-    { "type": "wind", "value": 2 }
-  ]
+  "color": "@c:my_var_string",
+  "level": "@c:start_level",
+  "moneyValue": "@c:darkbluedungeon_max_card_total",
+  "statistics": { "value": 5 },
+  "type": ["hat"],
+  "image": "@a:sacrificed.png",
+  "config": "@a:examples.json",
+  "sound": "@a:critical.mp3",
+  "gameobject": "@go:1"
 }

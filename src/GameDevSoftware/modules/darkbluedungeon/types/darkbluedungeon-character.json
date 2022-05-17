@@ -3,28 +3,45 @@
   "type": "darkbluedungeon-character",
   "description": "create characters",
   "core": {
-    "title": "string",
+    "_title": {
+      "label": "Name of character",
+      "core": "translation"
+    },
     "level": "number",
     "moneyValue": {
       "core": "number",
       "label": "Money value for this stuff",
       "description": "value on gold"
     },
+    "gameobject": { "core": "@go:darkbluedungeon-stuff", "label": "Stuff Hat" },
+    "color": "color",
     "image": "image",
-    "stuffType": ["hat", "tunic", "gloves", "boots", "weapon"],
-    "statistics": {
+    "config": "json",
+    "video": "video",
+    "sound": "sound",
+    "type": {
       "multiple": true,
+      "label": "Type of stuff",
+      "core": ["hat", "tunic", "gloves", "boots", "weapon"]
+    },
+    "statistics": {
+      "label": "Stastitics",
+      "description": "statitics append by this stuff",
       "core": {
-        "type": [
-          "life",
-          "heal",
-          "initiative",
-          "magicalpower",
-          "physicalattack",
-          "resistorPhysical",
-          "resistorMagical"
-        ],
-        "value": "number"
+        "type": {
+          "label": "Type of stastitic",
+          "multiple": true,
+          "core": [
+            "life",
+            "heal",
+            "initiative",
+            "magicalpower",
+            "physicalattack",
+            "resistorPhysical",
+            "resistorMagical"
+          ]
+        },
+        "value": { "core": "number", "description": "value of stat" }
       }
     },
     "elements": {

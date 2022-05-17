@@ -1,5 +1,1 @@
-[
-  { "file": "0.json", "type": "darkbluedungeon-stuff" },
-  { "file": "1.json", "type": "darkbluedungeon-character" },
-  { "file": "2.json", "type": "darkbluedungeon-stuff" }
-]
+[{"file":"1.json","type":"darkbluedungeon-stuff"},{"file":"2.json","type":"darkbluedungeon-character"}]
