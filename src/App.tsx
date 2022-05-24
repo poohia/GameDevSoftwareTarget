@@ -1,31 +1,39 @@
 import React, { useEffect, useState } from "react";
 import objects from "./GameDevSoftware/gameObjects/index.json";
+import { useAssets, useConstants, useModules } from "./hooks";
 
 const gameObjects: any = [];
 
-objects.forEach((o) => {
-  gameObjects.push(require(`./GameDevSoftware/gameObjects/${o}.json`));
+objects.forEach((object) => {
+  gameObjects.push(require(`./GameDevSoftware/gameObjects/${object.file}`));
 });
 
 function App() {
-  const [firstObject, setFirstObject] = useState<any>();
+  const [firstObject, setFirstObject] = useState<string>();
+  useModules();
+  const { getConfigurationFile, getAssetByFileName } = useAssets();
+  const { constants, getValueFromConstant } = useConstants();
+
   useEffect(() => {
-    setFirstObject(gameObjects[0]);
-  }, []);
-  const findUrlImg = (src: string | { src: string; module: string }) => {
-    const assetsUrl = "assets/";
-    if (typeof src === "string") {
-      return `${assetsUrl}images/${src}`;
+    const value = getConfigurationFile<{ image: string }[]>("example.json");
+    console.log("🚀 ~ file: App.tsx ~ line 17 ~ useEffect ~ value", value);
+    setFirstObject(value[0].image);
+  }, [getConfigurationFile]);
+
+  useEffect(() => {
+    if (constants) {
+      console.log(
+        "🚀 ~ file: App.tsx ~ line 26 ~ useEffect ~ getValueFromConstant",
+        getValueFromConstant("darkbluedungeon_max_card_total")
+      );
     }
-    return `${assetsUrl}${src.module}/images/${src.src}`;
-  };
-  console.log("🚀 ~ file: App.tsx ~ line 24 ~ App ~ gameObjects", gameObjects);
-  console.log("🚀 ~ file: App.tsx ~ line 26 ~ App ~ firstObject", firstObject);
+  }, [constants, getValueFromConstant]);
   return (
     <div>
       <p>Hello world</p>
-      {firstObject && <img src={findUrlImg(firstObject.image)} alt="" />}
-      {/* <img src="assets/darkbluedungeon/images/amulet.png" alt="" /> */}
+      {firstObject && (
+        <img src={getAssetByFileName<string>(firstObject)} alt="" />
+      )}
     </div>
   );
 }
