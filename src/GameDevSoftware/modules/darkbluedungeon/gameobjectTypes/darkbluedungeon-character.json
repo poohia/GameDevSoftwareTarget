@@ -11,7 +11,8 @@
     "moneyValue": {
       "core": "number",
       "label": "Money value for this stuff",
-      "description": "value on gold"
+      "description": "value on gold",
+      "optional": true
     },
     "gameobject": { "core": "@go:darkbluedungeon-stuff", "label": "Stuff Hat" },
     "color": "color",
@@ -22,7 +23,8 @@
     "type": {
       "multiple": true,
       "label": "Type of stuff",
-      "core": ["hat", "tunic", "gloves", "boots", "weapon"]
+      "core": ["hat", "tunic", "gloves", "boots", "weapon"],
+      "optional": true
     },
     "statistics": {
       "label": "Stastitics",
@@ -31,6 +33,7 @@
         "type": {
           "label": "Type of stastitic",
           "multiple": true,
+          "optional": true,
           "core": [
             "life",
             "heal",
@@ -42,21 +45,24 @@
           ]
         },
         "value": { "core": "number", "description": "value of stat" }
-      }
+      },
+      "optional": true
     },
     "elements": {
       "multiple": true,
       "core": {
-        "type": ["ice", "earth", "fire", "wind"],
+        "type": "translation",
         "value": "number"
-      }
+      },
+      "optional": true
     },
     "resistors": {
       "multiple": true,
       "core": {
         "type": ["ice", "earth", "fire", "wind"],
         "value": "number"
-      }
+      },
+      "optional": false
     }
   }
 }
