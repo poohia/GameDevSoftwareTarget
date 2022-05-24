@@ -16,7 +16,7 @@ const useAssets = () => {
     }
   }, []);
   const getAsset = useCallback(
-    <T = string>(name: string, type: AssertAcceptedType): T => {
+    <T = string>(name: string, type: AssertAcceptedType): string | Object => {
       const findAsset = assets.find(
         (asset) => asset.type === type && asset.name === name
       );
@@ -64,19 +64,19 @@ const useAssets = () => {
   );
 
   const getAssetByFileName = useCallback(
-    <T = string>(fileName: string): T => {
+    (fileName: string): string | Object => {
       if (
         fileName.endsWith(".png") ||
         fileName.endsWith(".jpg") ||
         fileName.endsWith(".jpeg")
       ) {
-        return getAsset<T>(fileName, "image");
+        return getAsset(fileName, "image");
       } else if (fileName.endsWith(".json")) {
-        return getAsset<T>(fileName, "json");
+        return getAsset(fileName, "json");
       } else if (fileName.endsWith(".mp3")) {
-        return getAsset<T>(fileName, "sound");
+        return getAsset(fileName, "sound");
       } else if (fileName.endsWith(".mp4") || fileName.endsWith(".mkv")) {
-        return getAsset<T>(fileName, "video");
+        return getAsset(fileName, "video");
       } else {
         throw new Error(`Type of ${fileName} undefined`);
       }

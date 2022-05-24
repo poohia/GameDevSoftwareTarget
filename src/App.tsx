@@ -32,7 +32,7 @@ function App() {
     <div>
       <p>Hello world</p>
       {firstObject && (
-        <img src={getAssetByFileName<string>(firstObject)} alt="" />
+        <img src={getAssetByFileName(firstObject) as string} alt="" />
       )}
     </div>
   );
