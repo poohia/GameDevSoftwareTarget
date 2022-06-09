@@ -42,7 +42,10 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => nextScene(1)}>Start game</button>
+      <button onClick={() => nextScene(1)}>
+        <TranslationComponent id="start_game" />
+      </button>
+      <br />
       <button onClick={() => switchLanguage("fr")}>Set french language</button>
       <button onClick={() => switchLanguage("en")}>Set english language</button>
     </div>

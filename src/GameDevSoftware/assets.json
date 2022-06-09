@@ -1,5 +1,1 @@
-[
-  { "type": "image", "name": "commande casto.png" },
-  { "type": "image", "name": "amulet.png", "module": "darkbluedungeon" },
-  { "type": "json", "name": "example.json" }
-]
+[{"type":"image","name":"commande casto.png"},{"type":"image","name":"amulet.png","module":"darkbluedungeon"},{"type":"json","name":"example.json"}]
