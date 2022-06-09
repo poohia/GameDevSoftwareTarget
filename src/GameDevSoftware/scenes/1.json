@@ -1,1 +1,7 @@
-{"_title":"1er scene","_actions":[{"_type":"@t:BUTTONS_next","_scene":"@s:2"}],"textContent":"@t:SCENES_scene_text_1","_type":"darkbluedungeon-text-scene","_id":1}
+{
+  "_title": "1er scene",
+  "_actions": [{ "_type": "@t:BUTTONS_next", "_scene": "@s:2" }],
+  "textContent": "@t:SCENES_scene_text_1",
+  "_type": "darkbluedungeon-text-scene",
+  "_id": 1
+}

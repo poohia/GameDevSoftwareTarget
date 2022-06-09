@@ -1,1 +1,5 @@
-[{"file":"1.json","type":"darkbluedungeon-text-scene"},{"file":"2.json","type":"darkbluedungeon-text-scene"},{"file":"3.json","type":"darkbluedungeon-text-scene"}]
+[
+  { "file": "1.json", "type": "darkbluedungeon-text-scene" },
+  { "file": "2.json", "type": "darkbluedungeon-text-scene" },
+  { "file": "3.json", "type": "darkbluedungeon-text-scene" }
+]

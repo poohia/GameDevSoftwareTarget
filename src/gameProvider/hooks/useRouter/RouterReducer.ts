@@ -2,7 +2,9 @@ import { Route } from "../../../types";
 
 type State = {
   route: Route;
-  params: any;
+  params?: {
+    sceneId: number;
+  };
 };
 type Action = {
   type: "push" | "nextScene";
@@ -11,7 +13,6 @@ type Action = {
 
 export const defaultState: State = {
   route: "home",
-  params: null,
 };
 
 const RouterReducer = (state: State, action: Action): State => {

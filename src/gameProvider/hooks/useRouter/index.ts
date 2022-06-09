@@ -5,9 +5,9 @@ import RouterReducer, { defaultState } from "./RouterReducer";
 
 export interface useRouterInterface extends GameProviderHooksDefaultInterface {
   route: Route;
-  params: any;
+  params?: { sceneId: number };
   push: (route: Route, params?: any) => void;
-  nextScene: (sceneId: string, params?: any) => void;
+  nextScene: (sceneId: number, params?: any) => void;
 }
 
 const useRouter = (): useRouterInterface => {
@@ -15,17 +15,17 @@ const useRouter = (): useRouterInterface => {
   const [state, dispatch] = useReducer(RouterReducer, defaultState);
   const { route, params } = state;
 
-  const push = useCallback((route: Route, params?: Object | null) => {
+  const push = useCallback((route: Route) => {
     dispatch({
       type: "push",
-      value: { route, params: params || null },
+      value: { route },
     });
   }, []);
 
-  const nextScene = useCallback((sceneId: string, params?: Object) => {
+  const nextScene = useCallback((sceneId: number) => {
     dispatch({
       type: "push",
-      value: { route: "scene", params: { sceneId, ...params } },
+      value: { route: "scene", params: { sceneId } },
     });
   }, []);
 
