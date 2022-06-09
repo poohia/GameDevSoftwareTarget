@@ -20,7 +20,7 @@ const useConstants = () => {
 
   const getValueFromConstant = useCallback(
     (key: string) => {
-      return constants?.find((constant) => constant.key === key);
+      return constants?.find((constant) => constant.key === key)?.value;
     },
     [constants]
   );

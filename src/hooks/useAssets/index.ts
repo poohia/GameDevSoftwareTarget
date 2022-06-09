@@ -31,9 +31,9 @@ const useAssets = () => {
 
       const { name: nameAsset, module: moduleAsset } = findAsset;
       if (moduleAsset) {
-        return `assets/${moduleAsset}/${typeAsset}/${nameAsset}`;
+        return `assets/${moduleAsset}/${typeAsset}${nameAsset}`;
       }
-      return `assets/${typeAsset}/${nameAsset}`;
+      return `assets/${typeAsset}${nameAsset}`;
     },
     [folderByType]
   );

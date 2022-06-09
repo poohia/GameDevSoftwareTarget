@@ -65,7 +65,8 @@
     },
     "platforms": [
       "electron",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

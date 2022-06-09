@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import objects from "./GameDevSoftware/gameObjects/index.json";
+// import objects from "./GameDevSoftware/gameObjects/index.json";
 import { useAssets, useConstants, useModules } from "./hooks";
 
-const gameObjects: any = [];
+// const gameObjects: any = [];
 
-objects.forEach((object) => {
-  gameObjects.push(require(`./GameDevSoftware/gameObjects/${object.file}`));
-});
+// objects.forEach((object) => {
+//   gameObjects.push(require(`./GameDevSoftware/gameObjects/${object.file}`));
+// });
 
 function App() {
   const [firstObject, setFirstObject] = useState<string>();
@@ -16,7 +16,10 @@ function App() {
 
   useEffect(() => {
     const value = getConfigurationFile<{ image: string }[]>("example.json");
-    console.log("🚀 ~ file: App.tsx ~ line 17 ~ useEffect ~ value", value);
+    console.log(
+      "🚀 ~ file: App.tsx ~ line 17 ~ useEffect ~ value",
+      JSON.stringify(value)
+    );
     setFirstObject(value[0].image);
   }, [getConfigurationFile]);
 
@@ -28,6 +31,7 @@ function App() {
       );
     }
   }, [constants, getValueFromConstant]);
+
   return (
     <div>
       <p>Hello world</p>
