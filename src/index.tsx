@@ -5,11 +5,16 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import window from "./cordova";
+import GameProvider from "./gameProvider";
 
 const renderReactDom = () => {
   const container = document.getElementById("app") as HTMLElement;
   const root = createRoot(container); // createRoot(container!) if you use TypeScript
-  root.render(<App />);
+  root.render(
+    <GameProvider>
+      <App />
+    </GameProvider>
+  );
 };
 
 if (window.cordova) {

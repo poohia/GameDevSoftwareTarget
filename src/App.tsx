@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import objects from "./GameDevSoftware/gameObjects/index.json";
 import { useAssets, useConstants, useModules } from "./hooks";
+import { useGameProvider } from "./gameProvider";
+import { TranslationComponent } from "./components";
 
 // const gameObjects: any = [];
 
@@ -13,6 +15,7 @@ function App() {
   useModules();
   const { getConfigurationFile, getAssetByFileName } = useAssets();
   const { constants, getValueFromConstant } = useConstants();
+  const { switchLanguage } = useGameProvider();
 
   useEffect(() => {
     const value = getConfigurationFile<{ image: string }[]>("example.json");
@@ -34,10 +37,19 @@ function App() {
 
   return (
     <div>
-      <p>Hello world</p>
+      <p>
+        <TranslationComponent id="hello_world" />
+      </p>
+      <p>
+        <TranslationComponent id="start_game" />
+      </p>
+      <p>
+        <TranslationComponent id="ALERT_cancel" />
+      </p>
       {firstObject && (
         <img src={getAssetByFileName(firstObject) as string} alt="" />
       )}
+      <button onClick={() => switchLanguage("fr")}>Switch</button>
     </div>
   );
 }
