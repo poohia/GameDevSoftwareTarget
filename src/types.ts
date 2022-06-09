@@ -5,3 +5,6 @@ export type ConstantObject = {
   value: ConstantValue;
   description?: string;
 };
+export type Parameters = {
+  language: string;
+};

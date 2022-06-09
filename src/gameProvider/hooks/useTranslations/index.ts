@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
 import i18n from "i18n-js";
-import { parallel } from "async";
+import useGlobalization from "@awesome-cordova-library/globalization/lib/react";
 
 import modules from "../../../GameDevSoftware/modules/index.json";
 import languages from "../../../GameDevSoftware/languages.json";
-import en from "../../../translations/en.json";
-import fr from "../../../translations/fr.json";
 import { GameProviderHooksDefaultInterface } from "..";
+import { parallel } from "async";
+import { useParameters } from "../../../hooks";
 
 export interface useTranslationsInterface
   extends GameProviderHooksDefaultInterface {
@@ -18,6 +18,9 @@ export interface useTranslationsInterface
 const useTranslations = (): useTranslationsInterface => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [locale, setLocale] = useState<string>("en");
+  const { getPreferredLanguage } = useGlobalization();
+  const { parameters } = useParameters();
+
   const switchLanguage = useCallback((language: string) => {
     i18n.defaultLocale = language;
     i18n.locale = language;
@@ -25,29 +28,54 @@ const useTranslations = (): useTranslationsInterface => {
   }, []);
 
   useEffect(() => {
-    const translationsModule: any = {};
-    modules.forEach((m) => {
-      languages.forEach(({ code }) => {
-        if (typeof translationsModule[code] === "undefined") {
-          translationsModule[code] = {};
-        }
-        translationsModule[code] = {
-          ...translationsModule[code],
-          ...require(`../../../GameDevSoftware/modules/${m}/translations/${code}.json`),
-        };
-      });
-    });
-    languages.forEach(({ code }) => {
-      translationsModule[code] = {
-        ...translationsModule[code],
-        ...require(`../../../translations/${code}.json`),
-      };
-    });
-    i18n.translations = translationsModule;
+    if (typeof parameters === "undefined") return;
+    parallel(
+      [
+        (callback) => {
+          const translationsModule: any = {};
+          modules.forEach((m) => {
+            languages.forEach(({ code }) => {
+              if (typeof translationsModule[code] === "undefined") {
+                translationsModule[code] = {};
+              }
+              translationsModule[code] = {
+                ...translationsModule[code],
+                ...require(`../../../GameDevSoftware/modules/${m}/translations/${code}.json`),
+              };
+            });
+          });
+          languages.forEach(({ code }) => {
+            translationsModule[code] = {
+              ...translationsModule[code],
+              ...require(`../../../translations/${code}.json`),
+            };
+          });
+          i18n.translations = translationsModule;
+          callback();
+        },
+        (callback) => {
+          if (parameters) {
+            i18n.locale = parameters.language;
+          } else {
+            getPreferredLanguage().then(({ value }) => {
+              const languageFind =
+                languages.find((language) => value.includes(language.code)) ||
+                languages[0];
+
+              i18n.locale = languageFind.code;
+              setLocale(languageFind.code);
+
+              callback();
+            });
+          }
+        },
+      ],
+      () => {
+        setLoaded(true);
+      }
+    );
     i18n.locale = "en";
-    console.log(translationsModule);
-    setLoaded(true);
-  }, []);
+  }, [parameters, getPreferredLanguage]);
 
   return { i18n, locale, loaded, switchLanguage };
 };
