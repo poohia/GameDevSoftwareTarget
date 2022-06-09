@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import objects from "./GameDevSoftware/gameObjects/index.json";
-import { useAssets, useConstants, useModules } from "./hooks";
+import { useAssets, useConstants } from "./hooks";
 import { useGameProvider } from "./gameProvider";
 import { TranslationComponent } from "./components";
 import { Scene } from "./pages";
@@ -16,8 +16,7 @@ function App() {
   // useModules();
   // const { getConfigurationFile, getAssetByFileName } = useAssets();
   // const { constants, getValueFromConstant } = useConstants();
-  const { route, params, nextScene, switchLanguage } = useGameProvider();
-  console.log("🚀 ~ file: App.tsx ~ line 20 ~ App ~ params", params);
+  const { route, nextScene, switchLanguage } = useGameProvider();
 
   // useEffect(() => {
   //   const value = getConfigurationFile<{ image: string }[]>("example.json");
@@ -43,8 +42,9 @@ function App() {
 
   return (
     <div>
-      Hello world
       <button onClick={() => nextScene(1)}>Start game</button>
+      <button onClick={() => switchLanguage("fr")}>Set french language</button>
+      <button onClick={() => switchLanguage("en")}>Set english language</button>
     </div>
   );
 }

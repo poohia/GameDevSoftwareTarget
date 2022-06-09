@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useGameProvider } from "../../gameProvider";
 import { useScenes } from "../../hooks";
-import { SceneObject, SceneTypeJSON } from "../../types";
+import { SceneComponentProps, SceneObject, SceneTypeJSON } from "../../types";
 
 const Scene = () => {
   const [scene, setScene] = useState<SceneTypeJSON>();
   const [sceneData, setSceneData] = useState<SceneObject>();
+  const [Component, setComponent] = useState<SceneComponentProps>();
 
   const { params, push } = useGameProvider();
   const { findScene } = useScenes();
@@ -15,13 +16,14 @@ const Scene = () => {
       push("home");
       return;
     }
-    const [s, sd] = findScene(params.sceneId);
+    const [s, sd, C] = findScene(params.sceneId);
     setScene(s);
     setSceneData(sd);
+    setComponent(C);
   }, [params, push, findScene]);
 
-  if (!scene) {
-    return <div />;
+  if (scene && sceneData && Component) {
+    return <Component data={sceneData} />;
   }
 
   return <div>Hello world</div>;

@@ -1,9 +1,32 @@
+import { TranslationComponent } from "../../../../components";
+import { useGameProvider } from "../../../../gameProvider";
+import { useScenes } from "../../../../hooks";
 import { SceneComponentProps } from "../../../../types";
 
-const DarkbluedungeonTextScene: SceneComponentProps = (props) => {
+const Darkbluedungeontextscene: SceneComponentProps<
+  {},
+  {
+    textContent: string;
+  }
+> = (props) => {
   const { data } = props;
-  console.log("🚀 ~ file: DarkbluedungeonTextScene.tsx ~ line 5 ~ data", data);
-  return <div>Hello world</div>;
+  const { push, nextScene } = useGameProvider();
+  const { sceneToValue } = useScenes();
+  return (
+    <>
+      <div>
+        <TranslationComponent id={data.textContent} />
+      </div>
+      <div>
+        {data._actions.map((action) => (
+          <button onClick={() => nextScene(sceneToValue(action._scene))}>
+            <TranslationComponent id={action._title} />
+          </button>
+        ))}
+        <button onClick={() => push("home")}>Return home</button>
+      </div>
+    </>
+  );
 };
 
-export default DarkbluedungeonTextScene;
+export default Darkbluedungeontextscene;

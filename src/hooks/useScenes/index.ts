@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, lazy } from "react";
 import scenes from "../../GameDevSoftware/scenes/index.json";
 import { useGameProvider } from "../../gameProvider";
 import { SceneObject, SceneTypeJSON } from "../../types";
@@ -6,8 +6,16 @@ import { SceneObject, SceneTypeJSON } from "../../types";
 const useScenes = () => {
   const { push } = useGameProvider();
 
+  const formatSceneTypeName = useCallback((sceneType: string) => {
+    return sceneType
+      .replaceAll("-", "")
+      .replaceAll(/\p{L}+('\p{L}+)?/gu, function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.slice(1);
+      });
+  }, []);
+
   const findScene = useCallback(
-    (sceneId: number): [SceneTypeJSON, SceneObject] => {
+    (sceneId: number): [SceneTypeJSON, SceneObject, any] => {
       const scene: SceneTypeJSON | undefined = scenes.find(
         (s) => Number(s.file.replace(".json", "")) === sceneId
       );
@@ -17,13 +25,27 @@ const useScenes = () => {
         return;
       }
       const sceneData: SceneObject = require(`../../GameDevSoftware/scenes/${scene.file}`);
-      return [scene, sceneData];
+      const Component = lazy(
+        () =>
+          import(
+            `../../GameDevSoftware/modules/${
+              scene.module
+            }/scenes/${formatSceneTypeName(scene.type)}.tsx`
+          )
+      );
+
+      return [scene, sceneData, Component];
     },
-    [push]
+    [push, formatSceneTypeName]
   );
+
+  const sceneToValue = useCallback((scene: string): number => {
+    return Number(scene.replace("@s:", ""));
+  }, []);
 
   return {
     findScene,
+    sceneToValue,
   };
 };
 

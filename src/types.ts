@@ -15,21 +15,23 @@ export type ObjectGameTypeJSON = {
   file: string;
   type: string;
 };
-export type SceneTypeJSON = ObjectGameTypeJSON;
+export type SceneTypeJSON = ObjectGameTypeJSON & {
+  module: string;
+};
 export type ActionOfScene = {
   [key: string]: any;
   _title: string;
   _scene: string;
 };
-export type SceneObject = {
-  [key: string]: any;
+export type SceneObject<T = {}> = T & {
   _id: number;
   _type: string;
   _title: string;
   _actions: ActionOfScene[];
+  _module: string;
 };
-export type SceneComponentProps<T = {}> = React.FC<
+export type SceneComponentProps<T = {}, P = {}> = React.FC<
   T & {
-    data: SceneObject;
+    data: SceneObject<P>;
   }
 >;

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import globalConstants from "../../GameDevSoftware/constants.json";
 import { ConstantObject } from "../../types";
-import { modules } from "../useModules";
+import modules from "../../GameDevSoftware/modules/index.json";
 
 const useConstants = () => {
   const [constants, setConstants] = useState<ConstantObject[]>();
