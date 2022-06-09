@@ -8,3 +8,4 @@ export type ConstantObject = {
 export type Parameters = {
   language: string;
 };
+export type Route = "home" | "parameters" | "scene";

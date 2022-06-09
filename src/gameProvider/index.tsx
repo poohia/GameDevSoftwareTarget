@@ -6,7 +6,11 @@ import React, {
   useEffect,
 } from "react";
 
-import { useTranslations, GameProviderHooksInterface } from "./hooks";
+import {
+  useTranslations,
+  GameProviderHooksInterface,
+  useRouter,
+} from "./hooks";
 
 interface GameContextInterface extends GameProviderHooksInterface {}
 
@@ -30,6 +34,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const { loaded: loadedTranslations, ...useTranslationsReturns } =
     useTranslations();
+  const { loaded: loadedRouter, ...useRouterReturns } = useRouter();
 
   useEffect(() => {
     if (loadedTranslations) {
@@ -40,7 +45,9 @@ const GameProvider = ({ children }: GameProviderProps) => {
   if (!loaded) return <div>loading...</div>;
 
   return (
-    <CtxProvider value={{ ...useTranslationsReturns, loaded }}>
+    <CtxProvider
+      value={{ ...useTranslationsReturns, ...useRouterReturns, loaded }}
+    >
       {children}
     </CtxProvider>
   );
