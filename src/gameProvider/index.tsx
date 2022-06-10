@@ -6,6 +6,7 @@ import {
   useRouter,
   useEnv,
   useSave,
+  useApplication,
 } from "./hooks";
 
 interface GameContextInterface extends GameProviderHooksInterface {}
@@ -27,6 +28,7 @@ type GameProviderProps = {
 };
 
 const GameProvider = ({ children }: GameProviderProps) => {
+  const { loaded: loadedApplication } = useApplication();
   const { loaded: loadedTranslations, ...useTranslationsReturns } =
     useTranslations();
   const {
@@ -38,15 +40,14 @@ const GameProvider = ({ children }: GameProviderProps) => {
   const { loaded: loadedSave, ...useSaveReturns } = useSave(pushNextScene);
 
   const loaded = useMemo(
-    () => loadedTranslations && loadedRouter && loadedEnv && loadedSave,
-    [loadedTranslations, loadedRouter, loadedEnv, loadedSave]
+    () =>
+      loadedApplication &&
+      loadedTranslations &&
+      loadedRouter &&
+      loadedEnv &&
+      loadedSave,
+    [loadedApplication, loadedTranslations, loadedRouter, loadedEnv, loadedSave]
   );
-
-  // useEffect(() => {
-  //   if (loadedTranslations && loadedRouter && lo) {
-  //     setLoaded(true);
-  //   }
-  // }, [loadedTranslations]);
 
   if (!loaded) return <div>loading...</div>;
 
