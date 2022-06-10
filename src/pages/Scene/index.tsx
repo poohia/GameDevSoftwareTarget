@@ -12,17 +12,11 @@ const Scene = () => {
   const { findScene } = useScenes();
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ file: index.tsx ~ line 16 ~ useEffect ~ JSON.stringify(game)",
-      JSON.stringify(game)
-    );
     if (game.currentScene === 0) {
       push("home");
       return;
     }
     const [s, sd, C] = findScene(game.currentScene);
-    console.log(JSON.stringify(sd));
-    console.log(C);
     setScene(s);
     setSceneData(sd);
     setComponent(C);

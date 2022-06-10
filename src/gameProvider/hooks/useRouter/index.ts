@@ -29,31 +29,6 @@ const useRouter = (): useRouterInterface => {
     });
   }, []);
 
-  useEffect(() => {
-    const {
-      location: { pathname },
-    } = window;
-
-    let route: Route = "home";
-    switch (pathname) {
-      case "/scene":
-        route = "scene";
-        break;
-      case "/parameters":
-        route = "parameters";
-        break;
-      case "/":
-      default:
-        route = "home";
-    }
-    dispatch({
-      type: "push",
-      value: {
-        route,
-      },
-    });
-  }, []);
-
   return {
     loaded,
     route,

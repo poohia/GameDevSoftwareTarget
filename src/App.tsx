@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAssets, useConstants } from "./hooks";
 import { useGameProvider } from "./gameProvider";
 import { TranslationComponent } from "./components";
-import { Scene } from "./pages";
+import { Scene, Home } from "./pages";
 
 // const gameObjects: any = [];
 
@@ -16,8 +16,7 @@ function App() {
   // useModules();
   // const { getConfigurationFile, getAssetByFileName } = useAssets();
   // const { constants, getValueFromConstant } = useConstants();
-  const { route, canContinue, startNewGame, startGame, switchLanguage } =
-    useGameProvider();
+  const { route } = useGameProvider();
 
   // useEffect(() => {
   //   const value = getConfigurationFile<{ image: string }[]>("example.json");
@@ -36,23 +35,13 @@ function App() {
   //     );
   //   }
   // }, [constants, getValueFromConstant]);
-  if (route === "scene") {
-    return <Scene />;
+  switch (route) {
+    case "scene":
+      return <Scene />;
+    case "home":
+    default:
+      return <Home />;
   }
-
-  return (
-    <div>
-      <button onClick={() => startNewGame()}>
-        <TranslationComponent id="start_game" />
-      </button>
-      <button onClick={() => startGame()} disabled={!canContinue}>
-        Continue
-      </button>
-      <br />
-      <button onClick={() => switchLanguage("fr")}>Set french language</button>
-      <button onClick={() => switchLanguage("en")}>Set english language</button>
-    </div>
-  );
 }
 
 export default App;

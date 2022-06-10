@@ -1,3 +1,4 @@
+import LocalStorage from "@awesome-cordova-library/localstorage";
 import { Route } from "../../../types";
 
 type State = {
@@ -17,16 +18,16 @@ type Action = {
 };
 
 export const defaultState: State = {
-  route: "home",
+  route: LocalStorage.getItem<Route>("last-path") || "home",
 };
 
 const RouterReducer = (state: State, action: Action): State => {
   const { type, value } = action;
   switch (type) {
     case "push":
-      // console.log(value.route);
-      // const path = value.route === "home" ? "/" : `/${value.route}`;
-      // window.history.pushState(null, value.route, path);
+      if (process.env.REACT_APP_ENV === "development") {
+        LocalStorage.setItem<Route>("last-path", value.route);
+      }
       return { ...value };
     default:
       return state;
