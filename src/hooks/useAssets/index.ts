@@ -16,7 +16,7 @@ const useAssets = () => {
     }
   }, []);
   const getAsset = useCallback(
-    <T = string>(name: string, type: AssertAcceptedType): string | Object => {
+    (name: string, type: AssertAcceptedType): string | Object => {
       const findAsset = assets.find(
         (asset) => asset.type === type && asset.name === name
       );
@@ -58,7 +58,7 @@ const useAssets = () => {
   );
   const getConfigurationFile = useCallback(
     <T = {}>(name: string): T => {
-      return getAsset<T>(name, "json") as T;
+      return getAsset(name, "json") as T;
     },
     [getAsset]
   );

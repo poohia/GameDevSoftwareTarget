@@ -35,3 +35,10 @@ export type SceneComponentProps<T = {}, P = {}> = React.FC<
     data: SceneObject<P>;
   }
 >;
+export type EnvType = "development" | "production";
+export type GameDatabase = {
+  currentScene: number;
+  sceneVisited: number[];
+  history: number[];
+  [key: string]: any;
+};

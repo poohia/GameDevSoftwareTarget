@@ -16,7 +16,8 @@ function App() {
   // useModules();
   // const { getConfigurationFile, getAssetByFileName } = useAssets();
   // const { constants, getValueFromConstant } = useConstants();
-  const { route, nextScene, switchLanguage } = useGameProvider();
+  const { route, canContinue, startNewGame, startGame, switchLanguage } =
+    useGameProvider();
 
   // useEffect(() => {
   //   const value = getConfigurationFile<{ image: string }[]>("example.json");
@@ -35,15 +36,17 @@ function App() {
   //     );
   //   }
   // }, [constants, getValueFromConstant]);
-
   if (route === "scene") {
     return <Scene />;
   }
 
   return (
     <div>
-      <button onClick={() => nextScene(1)}>
+      <button onClick={() => startNewGame()}>
         <TranslationComponent id="start_game" />
+      </button>
+      <button onClick={() => startGame()} disabled={!canContinue}>
+        Continue
       </button>
       <br />
       <button onClick={() => switchLanguage("fr")}>Set french language</button>

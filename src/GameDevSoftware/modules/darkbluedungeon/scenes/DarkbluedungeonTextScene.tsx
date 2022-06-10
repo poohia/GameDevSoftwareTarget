@@ -10,7 +10,11 @@ const Darkbluedungeontextscene: SceneComponentProps<
   }
 > = (props) => {
   const { data } = props;
-  const { push, nextScene } = useGameProvider();
+  const { canPrev, push, nextScene, prevScene } = useGameProvider();
+  console.log(
+    "🚀 ~ file: Darkbluedungeontextscene.tsx ~ line 14 ~ env",
+    data.textContent
+  );
   const { sceneToValue } = useScenes();
   return (
     <>
@@ -23,6 +27,7 @@ const Darkbluedungeontextscene: SceneComponentProps<
             <TranslationComponent id={action._title} />
           </button>
         ))}
+        {canPrev && <button onClick={() => prevScene()}>Prev scene</button>}
         <button onClick={() => push("home")}>Return home</button>
       </div>
     </>

@@ -8,7 +8,12 @@ type State = {
 };
 type Action = {
   type: "push" | "nextScene";
-  value: any;
+  value: {
+    route: Route;
+    params?: {
+      sceneId: number;
+    };
+  };
 };
 
 export const defaultState: State = {
@@ -19,6 +24,9 @@ const RouterReducer = (state: State, action: Action): State => {
   const { type, value } = action;
   switch (type) {
     case "push":
+      // console.log(value.route);
+      // const path = value.route === "home" ? "/" : `/${value.route}`;
+      // window.history.pushState(null, value.route, path);
       return { ...value };
     default:
       return state;

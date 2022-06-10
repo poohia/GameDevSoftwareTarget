@@ -8,25 +8,31 @@ const Scene = () => {
   const [sceneData, setSceneData] = useState<SceneObject>();
   const [Component, setComponent] = useState<SceneComponentProps>();
 
-  const { params, push } = useGameProvider();
+  const { game, push } = useGameProvider();
   const { findScene } = useScenes();
 
   useEffect(() => {
-    if (!params) {
+    console.log(
+      "🚀 ~ file: index.tsx ~ line 16 ~ useEffect ~ JSON.stringify(game)",
+      JSON.stringify(game)
+    );
+    if (game.currentScene === 0) {
       push("home");
       return;
     }
-    const [s, sd, C] = findScene(params.sceneId);
+    const [s, sd, C] = findScene(game.currentScene);
+    console.log(JSON.stringify(sd));
+    console.log(C);
     setScene(s);
     setSceneData(sd);
     setComponent(C);
-  }, [params, push, findScene]);
+  }, [game, push, findScene]);
 
   if (scene && sceneData && Component) {
     return <Component data={sceneData} />;
   }
 
-  return <div>Hello world</div>;
+  return <div />;
 };
 
 export default Scene;

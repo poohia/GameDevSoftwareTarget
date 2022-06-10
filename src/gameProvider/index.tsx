@@ -1,15 +1,11 @@
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react";
+import { createContext, useContext, ReactNode, useMemo } from "react";
 
 import {
   useTranslations,
   GameProviderHooksInterface,
   useRouter,
+  useEnv,
+  useSave,
 } from "./hooks";
 
 interface GameContextInterface extends GameProviderHooksInterface {}
@@ -31,22 +27,39 @@ type GameProviderProps = {
 };
 
 const GameProvider = ({ children }: GameProviderProps) => {
-  const [loaded, setLoaded] = useState<boolean>(false);
   const { loaded: loadedTranslations, ...useTranslationsReturns } =
     useTranslations();
-  const { loaded: loadedRouter, ...useRouterReturns } = useRouter();
+  const {
+    loaded: loadedRouter,
+    pushNextScene,
+    ...useRouterReturns
+  } = useRouter();
+  const { loaded: loadedEnv, ...useEnvReturns } = useEnv();
+  const { loaded: loadedSave, ...useSaveReturns } = useSave(pushNextScene);
 
-  useEffect(() => {
-    if (loadedTranslations) {
-      setLoaded(true);
-    }
-  }, [loadedTranslations]);
+  const loaded = useMemo(
+    () => loadedTranslations && loadedRouter && loadedEnv && loadedSave,
+    [loadedTranslations, loadedRouter, loadedEnv, loadedSave]
+  );
+
+  // useEffect(() => {
+  //   if (loadedTranslations && loadedRouter && lo) {
+  //     setLoaded(true);
+  //   }
+  // }, [loadedTranslations]);
 
   if (!loaded) return <div>loading...</div>;
 
   return (
     <CtxProvider
-      value={{ ...useTranslationsReturns, ...useRouterReturns, loaded }}
+      value={{
+        ...useTranslationsReturns,
+        ...useRouterReturns,
+        ...useEnvReturns,
+        ...useSaveReturns,
+        pushNextScene,
+        loaded,
+      }}
     >
       {children}
     </CtxProvider>
