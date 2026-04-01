@@ -1,23 +1,6 @@
 [
     {
-        "code": "en"
-    },
-    {
-        "code": "ar"
-    },
-    {
-        "code": "zh"
-    },
-    {
-        "code": "fi"
-    },
-    {
-        "code": "da"
-    },
-    {
-        "code": "de"
-    },
-    {
-        "code": "hu"
+        "code": "en",
+        "default": true
     }
 ]
