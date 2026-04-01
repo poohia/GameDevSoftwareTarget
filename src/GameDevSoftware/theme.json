@@ -27,7 +27,8 @@
         "editable": false
     },
     "game_configuration": {
-        "footer_border_top": "@c:#000000",
+        "footer_border_top": "@c:#ffffff",
+        "section_border_bottom": "@c:#ffffff",
         "editable": false
     }
 }

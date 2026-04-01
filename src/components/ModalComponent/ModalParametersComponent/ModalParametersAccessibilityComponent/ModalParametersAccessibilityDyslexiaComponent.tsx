@@ -4,7 +4,9 @@ import { useMemo } from "react";
 import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import { useGameProvider } from "../../../../gameProvider";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
-import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
+import ButtonClassicGroupComponent, {
+  ButtonClassicGroupComponentProps,
+} from "../../../ButtonClassicGroupComponent";
 
 const ModalParametersComponentContainer = styled.div`
   padding: 10px;
@@ -13,7 +15,9 @@ const ModalParametersComponentContainer = styled.div`
 
 export const ParametersAccessibilityDyslexiaComponent: React.FC<{
   open: boolean;
-}> = ({ open }) => {
+  buttonsDirection?: ButtonClassicGroupComponentProps["direction"];
+  delayBetweenButtons?: ButtonClassicGroupComponentProps["delayBetweenButtons"];
+}> = ({ open, buttonsDirection, delayBetweenButtons }) => {
   const {
     parameters: { activatedDyslexia },
     setActivatedDyslexia,
@@ -42,6 +46,8 @@ export const ParametersAccessibilityDyslexiaComponent: React.FC<{
       <ButtonClassicGroupComponent
         buttons={buttonsAction}
         show={open}
+        direction={buttonsDirection}
+        delayBetweenButtons={delayBetweenButtons}
         onClick={(key: string) => {
           setActivatedDyslexia(key === "yes");
         }}

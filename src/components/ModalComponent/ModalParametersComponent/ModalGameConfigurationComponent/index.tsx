@@ -4,11 +4,14 @@ import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import TranslationComponent from "../../../TranslationComponent";
 import { ParametersLanguagesComponent } from "../ModalParametersLanguagesComponent";
 import {
+  GameConfigurationAccessibilityContainer,
   GameConfigurationAudioConfigurationStyled,
+  GameConfigurationAudioOptionsRowStyled,
   GameConfigurationContainerStyled,
   GameConfigurationFooterStyled,
   GameConfigurationMainStyled,
   GameConfigurationSectionStyled,
+  GameConfigurationVibrationSectionStyled,
 } from "./styled";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
 import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
@@ -17,6 +20,10 @@ import { ParametersVibrationComponent } from "../ModalParametersVibrationCompone
 import { useGameProvider } from "../../../../gameProvider";
 import { ParametersAudioComponent } from "../ModalParametersAudioComponent";
 import { ParametersSoundEffectComponent } from "../ModalParametersSoundEffectComponent";
+import { ParametersAccessibilityInstantTextRevealComponent } from "../ModalParametersAccessibilityComponent/ModalParametersAccessibilityInstantTextRevealComponent";
+import { ParametersAccessibilitySizeTextComponent } from "../ModalParametersAccessibilityComponent/ModalParametersAccessibilitySizeTextComponent";
+import { ParametersAccessibilityColorModeComponent } from "../ModalParametersAccessibilityComponent/ModalParametersAccessibilityColorModeComponent";
+import { ParametersAccessibilityDyslexiaComponent } from "../ModalParametersAccessibilityComponent/ModalParametersAccessibilityDyslexiaComponent";
 
 const MAX_STEP = 4;
 
@@ -71,20 +78,22 @@ const StepParametersAudioComponent: React.FC = () => {
         <div>3/{MAX_STEP}</div>
       </div>
       <GameConfigurationAudioConfigurationStyled>
-        <section>
-          <h4>
-            <TranslationComponent id="parameters_audio" />
-          </h4>
-          <ParametersAudioComponent />
-        </section>
-        <section>
-          <h4>
-            <TranslationComponent id="parameters_activate_sound_effect" />
-          </h4>
-          <ParametersSoundEffectComponent />
-        </section>
-        {!isMobileDevice && (
+        <GameConfigurationAudioOptionsRowStyled>
           <section>
+            <h4>
+              <TranslationComponent id="parameters_audio" />
+            </h4>
+            <ParametersAudioComponent />
+          </section>
+          <section>
+            <h4>
+              <TranslationComponent id="parameters_activate_sound_effect" />
+            </h4>
+            <ParametersSoundEffectComponent />
+          </section>
+        </GameConfigurationAudioOptionsRowStyled>
+        {isMobileDevice && (
+          <GameConfigurationVibrationSectionStyled>
             <h4>
               <TranslationComponent id="parameters_activate_vibration" />
             </h4>
@@ -93,9 +102,64 @@ const StepParametersAudioComponent: React.FC = () => {
               buttonsDirection="row"
               delayBetweenButtons={0}
             />
-          </section>
+          </GameConfigurationVibrationSectionStyled>
         )}
       </GameConfigurationAudioConfigurationStyled>
+    </GameConfigurationSectionStyled>
+  );
+};
+
+const StepParametersAccessibilityComponent: React.FC = () => {
+  return (
+    <GameConfigurationSectionStyled>
+      <div>
+        <h3>
+          <TranslationComponent id="parameters_accessibility" />
+        </h3>
+        <div>4/{MAX_STEP}</div>
+      </div>
+      <GameConfigurationAccessibilityContainer>
+        <section>
+          <h4>
+            <TranslationComponent id="parameters_instant_text_reveal" />
+          </h4>
+          <ParametersAccessibilityInstantTextRevealComponent
+            open
+            buttonsDirection="row"
+            delayBetweenButtons={0}
+          />
+        </section>
+        <section>
+          <h4>
+            <TranslationComponent id="parameters_size_text_title" />
+          </h4>
+          <ParametersAccessibilitySizeTextComponent
+            open
+            buttonsDirection="row"
+            delayBetweenButtons={0}
+          />
+        </section>
+        <section>
+          <h4>
+            <TranslationComponent id="parameters_color_mode_title" />
+          </h4>
+          <ParametersAccessibilityColorModeComponent
+            open
+            buttonsDirection="row"
+            delayBetweenButtons={0}
+          />
+        </section>
+        <section>
+          <h4>
+            <TranslationComponent id="parameters_activate_dyslexia" />
+          </h4>
+          <ParametersAccessibilityDyslexiaComponent
+            open
+            buttonsDirection="row"
+            delayBetweenButtons={0}
+          />
+        </section>
+      </GameConfigurationAccessibilityContainer>
     </GameConfigurationSectionStyled>
   );
 };
@@ -116,6 +180,10 @@ export const GameConfigurationComponent: React.FC<{ onClose: () => void }> = ({
     }
     if (step >= MAX_STEP - 1) {
       return [
+        {
+          idText: "parameters_back",
+          key: "back",
+        },
         {
           idText: "game_configuration_finish",
           key: "finish",
@@ -140,6 +208,7 @@ export const GameConfigurationComponent: React.FC<{ onClose: () => void }> = ({
         {step === 0 && <StepParametersLanguagesComponent />}
         {step === 1 && <StepParametersDialogueSpeedComponent />}
         {step === 2 && <StepParametersAudioComponent />}
+        {step === 3 && <StepParametersAccessibilityComponent />}
       </GameConfigurationMainStyled>
       <GameConfigurationFooterStyled>
         <ButtonClassicGroupComponent

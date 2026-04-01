@@ -5,7 +5,9 @@ import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import { useGameProvider } from "../../../../gameProvider";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
 import TranslationComponent from "../../../TranslationComponent";
-import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
+import ButtonClassicGroupComponent, {
+  ButtonClassicGroupComponentProps,
+} from "../../../ButtonClassicGroupComponent";
 
 const ModalParametersComponentContainer = styled.div`
   padding: 10px;
@@ -21,7 +23,9 @@ const ModalParametersComponentContainer = styled.div`
 
 export const ParametersAccessibilityInstantTextRevealComponent: React.FC<{
   open: boolean;
-}> = ({ open }) => {
+  buttonsDirection?: ButtonClassicGroupComponentProps["direction"];
+  delayBetweenButtons?: ButtonClassicGroupComponentProps["delayBetweenButtons"];
+}> = ({ open, buttonsDirection, delayBetweenButtons }) => {
   const {
     parameters: { instantTextReveal },
     setInstantTextReveal,
@@ -51,6 +55,8 @@ export const ParametersAccessibilityInstantTextRevealComponent: React.FC<{
       <ButtonClassicGroupComponent
         buttons={buttonsAction}
         show={open}
+        direction={buttonsDirection}
+        delayBetweenButtons={delayBetweenButtons}
         onClick={(key: string) => {
           setInstantTextReveal(key === "yes");
         }}

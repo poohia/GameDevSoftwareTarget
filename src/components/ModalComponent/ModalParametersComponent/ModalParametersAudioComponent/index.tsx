@@ -7,12 +7,13 @@ export const ModalParametersComponentContainerAudio = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 240px;
 `;
 
 export const SliderContainer = styled.div`
   position: relative;
   width: 40px;
-  height: 84%;
+  height: clamp(220px, 30vh, 320px);
   max-height: 700px;
   display: flex;
   justify-content: center;

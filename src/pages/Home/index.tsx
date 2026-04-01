@@ -4,7 +4,7 @@ import { useGameProvider } from "../../gameProvider";
 import { ButtonClassicGroupComponent, PageComponent } from "../../components";
 import { ButtonClassicType } from "../../components/ButtonClassicComponent";
 import ParametersComponent from "../../components/ModalComponent/ModalParametersComponent";
-import ModalGameConfigurationComponent from "../../components/ModalComponent/ModalParametersComponent/GameConfigurationComponent";
+import ModalGameConfigurationComponent from "../../components/ModalComponent/ModalParametersComponent/ModalGameConfigurationComponent";
 
 const Home = () => {
   const { canContinue, startNewGame, startGame, push } = useGameProvider();

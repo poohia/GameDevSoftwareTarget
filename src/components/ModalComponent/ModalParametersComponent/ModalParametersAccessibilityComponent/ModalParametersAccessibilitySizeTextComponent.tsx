@@ -4,7 +4,9 @@ import { useMemo } from "react";
 import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import { useGameProvider } from "../../../../gameProvider";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
-import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
+import ButtonClassicGroupComponent, {
+  ButtonClassicGroupComponentProps,
+} from "../../../ButtonClassicGroupComponent";
 import { SizeTextTypes } from "../../../../types";
 
 const ModalParametersComponentContainer = styled.div`
@@ -14,7 +16,9 @@ const ModalParametersComponentContainer = styled.div`
 
 export const ParametersAccessibilitySizeTextComponent: React.FC<{
   open: boolean;
-}> = ({ open }) => {
+  buttonsDirection?: ButtonClassicGroupComponentProps["direction"];
+  delayBetweenButtons?: ButtonClassicGroupComponentProps["delayBetweenButtons"];
+}> = ({ open, buttonsDirection, delayBetweenButtons }) => {
   const {
     parameters: { sizeText },
     setSizeText,
@@ -49,6 +53,8 @@ export const ParametersAccessibilitySizeTextComponent: React.FC<{
       <ButtonClassicGroupComponent
         buttons={buttonsAction}
         show={open}
+        direction={buttonsDirection}
+        delayBetweenButtons={delayBetweenButtons}
         onClick={(key: string) => {
           setSizeText(key as SizeTextTypes);
         }}
