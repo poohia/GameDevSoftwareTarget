@@ -11,10 +11,9 @@ const ModalParametersComponentContainer = styled.div`
   height: calc(100% - 20px) !important;
 `;
 
-const ModalParametersAccessibilityDyslexiaComponent: React.FC<
-  ModalChildrenParametersComponentProps
-> = (props) => {
-  const { open, ...rest } = props;
+export const ParametersAccessibilityDyslexiaComponent: React.FC<{
+  open: boolean;
+}> = ({ open }) => {
   const {
     parameters: { activatedDyslexia },
     setActivatedDyslexia,
@@ -39,6 +38,24 @@ const ModalParametersAccessibilityDyslexiaComponent: React.FC<
   );
 
   return (
+    <ModalParametersComponentContainer>
+      <ButtonClassicGroupComponent
+        buttons={buttonsAction}
+        show={open}
+        onClick={(key: string) => {
+          setActivatedDyslexia(key === "yes");
+        }}
+      />
+    </ModalParametersComponentContainer>
+  );
+};
+
+const ModalParametersAccessibilityDyslexiaComponent: React.FC<
+  ModalChildrenParametersComponentProps
+> = (props) => {
+  const { open, ...rest } = props;
+
+  return (
     <ModalComponent
       title="parameters_activate_dyslexia"
       open={open}
@@ -46,15 +63,7 @@ const ModalParametersAccessibilityDyslexiaComponent: React.FC<
       isChildren
       {...rest}
     >
-      <ModalParametersComponentContainer>
-        <ButtonClassicGroupComponent
-          buttons={buttonsAction}
-          show={open}
-          onClick={(key: string) => {
-            setActivatedDyslexia(key === "yes");
-          }}
-        />
-      </ModalParametersComponentContainer>
+      <ParametersAccessibilityDyslexiaComponent open={open} />
     </ModalComponent>
   );
 };

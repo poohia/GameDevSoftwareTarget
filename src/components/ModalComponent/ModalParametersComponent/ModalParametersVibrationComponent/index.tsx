@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import { useGameProvider } from "../../../../gameProvider";
@@ -11,10 +11,9 @@ const ModalParametersComponentContainer = styled.div`
   height: calc(100% - 20px) !important;
 `;
 
-const ModalParametersVibrationComponent: React.FC<
-  ModalChildrenParametersComponentProps
-> = (props) => {
-  const { open, ...rest } = props;
+export const ParametersVibrationComponent: React.FC<{ open: boolean }> = ({
+  open,
+}) => {
   const {
     parameters: { activatedVibration },
     setActivatedVibration,
@@ -37,21 +36,31 @@ const ModalParametersVibrationComponent: React.FC<
   );
 
   return (
+    <ModalParametersComponentContainer>
+      <ButtonClassicGroupComponent
+        buttons={buttonsAction}
+        show={open}
+        onClick={(key: string) => {
+          setActivatedVibration(key === "yes");
+        }}
+      />
+    </ModalParametersComponentContainer>
+  );
+};
+
+const ModalParametersVibrationComponent: React.FC<
+  ModalChildrenParametersComponentProps
+> = (props) => {
+  const { open, ...rest } = props;
+
+  return (
     <ModalComponent
       title="parameters_activate_vibration"
       open={open}
       size="small"
       {...rest}
     >
-      <ModalParametersComponentContainer>
-        <ButtonClassicGroupComponent
-          buttons={buttonsAction}
-          show={open}
-          onClick={(key: string) => {
-            setActivatedVibration(key === "yes");
-          }}
-        />
-      </ModalParametersComponentContainer>
+      <ParametersVibrationComponent open={open} />
     </ModalComponent>
   );
 };

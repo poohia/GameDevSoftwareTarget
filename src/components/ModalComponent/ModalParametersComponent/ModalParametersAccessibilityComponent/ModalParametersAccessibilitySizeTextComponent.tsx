@@ -12,10 +12,9 @@ const ModalParametersComponentContainer = styled.div`
   height: calc(100% - 20px) !important;
 `;
 
-const ModalParametersAccessibilitySizeTextComponent: React.FC<
-  ModalChildrenParametersComponentProps
-> = (props) => {
-  const { open, ...rest } = props;
+export const ParametersAccessibilitySizeTextComponent: React.FC<{
+  open: boolean;
+}> = ({ open }) => {
   const {
     parameters: { sizeText },
     setSizeText,
@@ -46,6 +45,24 @@ const ModalParametersAccessibilitySizeTextComponent: React.FC<
   );
 
   return (
+    <ModalParametersComponentContainer>
+      <ButtonClassicGroupComponent
+        buttons={buttonsAction}
+        show={open}
+        onClick={(key: string) => {
+          setSizeText(key as SizeTextTypes);
+        }}
+      />
+    </ModalParametersComponentContainer>
+  );
+};
+
+const ModalParametersAccessibilitySizeTextComponent: React.FC<
+  ModalChildrenParametersComponentProps
+> = (props) => {
+  const { open, ...rest } = props;
+
+  return (
     <ModalComponent
       title="parameters_size_text_title"
       open={open}
@@ -53,15 +70,7 @@ const ModalParametersAccessibilitySizeTextComponent: React.FC<
       isChildren
       {...rest}
     >
-      <ModalParametersComponentContainer>
-        <ButtonClassicGroupComponent
-          buttons={buttonsAction}
-          show={open}
-          onClick={(key: string) => {
-            setSizeText(key as SizeTextTypes);
-          }}
-        />
-      </ModalParametersComponentContainer>
+      <ParametersAccessibilitySizeTextComponent open={open} />
     </ModalComponent>
   );
 };

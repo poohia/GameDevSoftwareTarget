@@ -8,10 +8,9 @@ import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
 
 const ModalParametersComponentContainer = styled.div``;
 
-const ModalParametersLanguagesComponent: React.FC<
-  ModalChildrenParametersComponentProps
-> = (props) => {
-  const { open, ...rest } = props;
+export const ParametersLanguagesComponent: React.FC<{ open: boolean }> = ({
+  open,
+}) => {
   const {
     parameters: { locale },
     languages,
@@ -29,6 +28,23 @@ const ModalParametersLanguagesComponent: React.FC<
   );
 
   return (
+    <ModalParametersComponentContainer>
+      <ButtonClassicGroupComponent
+        buttons={buttonsAction}
+        show={open}
+        onClick={(key: string) => {
+          switchLanguage(key);
+        }}
+      />
+    </ModalParametersComponentContainer>
+  );
+};
+
+const ModalParametersLanguagesComponent: React.FC<
+  ModalChildrenParametersComponentProps
+> = (props) => {
+  const { open, ...rest } = props;
+  return (
     <ModalComponent
       title="parameters_languages"
       open={open}
@@ -36,15 +52,7 @@ const ModalParametersLanguagesComponent: React.FC<
       isChildren
       {...rest}
     >
-      <ModalParametersComponentContainer>
-        <ButtonClassicGroupComponent
-          buttons={buttonsAction}
-          show={open}
-          onClick={(key: string) => {
-            switchLanguage(key);
-          }}
-        />
-      </ModalParametersComponentContainer>
+      <ParametersLanguagesComponent open={open} />
     </ModalComponent>
   );
 };

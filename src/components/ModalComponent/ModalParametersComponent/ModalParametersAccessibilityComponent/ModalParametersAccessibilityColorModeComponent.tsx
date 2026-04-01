@@ -12,10 +12,9 @@ const ModalParametersComponentContainer = styled.div`
   height: calc(100% - 20px) !important;
 `;
 
-const ModalParametersAccessibilityColorModeComponent: React.FC<
-  ModalChildrenParametersComponentProps
-> = (props) => {
-  const { open, ...rest } = props;
+export const ParametersAccessibilityColorModeComponent: React.FC<{
+  open: boolean;
+}> = ({ open }) => {
   const {
     parameters: { colorMode },
     setColorMode,
@@ -64,6 +63,24 @@ const ModalParametersAccessibilityColorModeComponent: React.FC<
   );
 
   return (
+    <ModalParametersComponentContainer>
+      <ButtonClassicGroupComponent
+        buttons={buttonsAction}
+        show={open}
+        onClick={(key: string) => {
+          setColorMode(key as ColorModeTypes);
+        }}
+      />
+    </ModalParametersComponentContainer>
+  );
+};
+
+const ModalParametersAccessibilityColorModeComponent: React.FC<
+  ModalChildrenParametersComponentProps
+> = (props) => {
+  const { open, ...rest } = props;
+
+  return (
     <ModalComponent
       title="parameters_color_mode_title"
       open={open}
@@ -71,15 +88,7 @@ const ModalParametersAccessibilityColorModeComponent: React.FC<
       isChildren
       {...rest}
     >
-      <ModalParametersComponentContainer>
-        <ButtonClassicGroupComponent
-          buttons={buttonsAction}
-          show={open}
-          onClick={(key: string) => {
-            setColorMode(key as ColorModeTypes);
-          }}
-        />
-      </ModalParametersComponentContainer>
+      <ParametersAccessibilityColorModeComponent open={open} />
     </ModalComponent>
   );
 };
