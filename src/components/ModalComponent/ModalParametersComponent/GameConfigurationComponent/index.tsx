@@ -4,11 +4,12 @@ import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import TranslationComponent from "../../../TranslationComponent";
 import { ParametersLanguagesComponent } from "../ModalParametersLanguagesComponent";
 import {
+  GameConfigurationAudioConfigurationStyled,
   GameConfigurationContainerStyled,
   GameConfigurationFooterStyled,
   GameConfigurationMainStyled,
   GameConfigurationSectionStyled,
-} from "./styles";
+} from "./styled";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
 import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
 import { ParametersDialogueSpeedComponent } from "../ModalParametersDialogueSpeedComponent";
@@ -69,7 +70,7 @@ const StepParametersAudioComponent: React.FC = () => {
         </h3>
         <div>3/{MAX_STEP}</div>
       </div>
-      <div>
+      <GameConfigurationAudioConfigurationStyled>
         <section>
           <h4>
             <TranslationComponent id="parameters_audio" />
@@ -94,7 +95,7 @@ const StepParametersAudioComponent: React.FC = () => {
             />
           </section>
         )}
-      </div>
+      </GameConfigurationAudioConfigurationStyled>
     </GameConfigurationSectionStyled>
   );
 };
