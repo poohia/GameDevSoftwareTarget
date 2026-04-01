@@ -4,16 +4,20 @@ import React, { useMemo } from "react";
 import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import { useGameProvider } from "../../../../gameProvider";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
-import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
+import ButtonClassicGroupComponent, {
+  ButtonClassicGroupComponentProps,
+} from "../../../ButtonClassicGroupComponent";
 
 const ModalParametersComponentContainer = styled.div`
   padding: 10px;
   height: calc(100% - 20px) !important;
 `;
 
-export const ParametersVibrationComponent: React.FC<{ open: boolean }> = ({
-  open,
-}) => {
+export const ParametersVibrationComponent: React.FC<{
+  open: boolean;
+  buttonsDirection?: ButtonClassicGroupComponentProps["direction"];
+  delayBetweenButtons?: ButtonClassicGroupComponentProps["delayBetweenButtons"];
+}> = ({ open, buttonsDirection, delayBetweenButtons }) => {
   const {
     parameters: { activatedVibration },
     setActivatedVibration,
@@ -40,6 +44,8 @@ export const ParametersVibrationComponent: React.FC<{ open: boolean }> = ({
       <ButtonClassicGroupComponent
         buttons={buttonsAction}
         show={open}
+        direction={buttonsDirection}
+        delayBetweenButtons={delayBetweenButtons}
         onClick={(key: string) => {
           setActivatedVibration(key === "yes");
         }}

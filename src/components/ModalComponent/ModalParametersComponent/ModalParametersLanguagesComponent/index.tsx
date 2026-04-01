@@ -4,13 +4,17 @@ import { useMemo } from "react";
 import ModalComponent, { ModalChildrenParametersComponentProps } from "../..";
 import { useGameProvider } from "../../../../gameProvider";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
-import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
+import ButtonClassicGroupComponent, {
+  ButtonClassicGroupComponentProps,
+} from "../../../ButtonClassicGroupComponent";
 
 const ModalParametersComponentContainer = styled.div``;
 
-export const ParametersLanguagesComponent: React.FC<{ open: boolean }> = ({
-  open,
-}) => {
+export const ParametersLanguagesComponent: React.FC<{
+  open: boolean;
+  buttonsDirection?: ButtonClassicGroupComponentProps["direction"];
+  delayBetweenButtons?: ButtonClassicGroupComponentProps["delayBetweenButtons"];
+}> = ({ open, buttonsDirection, delayBetweenButtons }) => {
   const {
     parameters: { locale },
     languages,
@@ -32,6 +36,8 @@ export const ParametersLanguagesComponent: React.FC<{ open: boolean }> = ({
       <ButtonClassicGroupComponent
         buttons={buttonsAction}
         show={open}
+        direction={buttonsDirection}
+        delayBetweenButtons={delayBetweenButtons}
         onClick={(key: string) => {
           switchLanguage(key);
         }}

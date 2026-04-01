@@ -25,5 +25,9 @@
         "thumb_background_color": "@c:#111B2D",
         "thumb_border_color": "@c:#B89457",
         "editable": false
+    },
+    "game_configuration": {
+        "footer_border_top": "@c:#000000",
+        "editable": false
     }
 }

@@ -6,7 +6,9 @@ import { useGameProvider } from "../../../../gameProvider";
 import { ButtonClassicType } from "../../../ButtonClassicComponent";
 import { DialoguePlayback } from "../../../../types";
 import TranslationComponent from "../../../TranslationComponent";
-import ButtonClassicGroupComponent from "../../../ButtonClassicGroupComponent";
+import ButtonClassicGroupComponent, {
+  ButtonClassicGroupComponentProps,
+} from "../../../ButtonClassicGroupComponent";
 
 const ModalParametersComponentContainer = styled.div`
   padding: 10px;
@@ -20,9 +22,11 @@ const ModalParametersComponentContainer = styled.div`
   }
 `;
 
-export const ParametersDialogueSpeedComponent: React.FC<{ open: boolean }> = ({
-  open,
-}) => {
+export const ParametersDialogueSpeedComponent: React.FC<{
+  open: boolean;
+  buttonsDirection?: ButtonClassicGroupComponentProps["direction"];
+  delayBetweenButtons?: ButtonClassicGroupComponentProps["delayBetweenButtons"];
+}> = ({ open, buttonsDirection, delayBetweenButtons }) => {
   const {
     parameters: { dialogueSpeed },
     setDialogueSpeed,
@@ -66,6 +70,8 @@ export const ParametersDialogueSpeedComponent: React.FC<{ open: boolean }> = ({
       <ButtonClassicGroupComponent
         buttons={buttonsAction}
         show={open}
+        direction={buttonsDirection}
+        delayBetweenButtons={delayBetweenButtons}
         onClick={(key: string) => {
           setDialogueSpeed(Number(key));
         }}
