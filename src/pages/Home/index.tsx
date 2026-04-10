@@ -86,6 +86,8 @@ const Home = () => {
       confirm({
         title: "Nouvelle partie",
         message: "Êtes vous sur de vouloir refaire une partie",
+      }).then((confirmation) => {
+        console.log("🚀 ~ Home ~ confirmation:", confirmation);
       });
     }, 1000);
   }, []);

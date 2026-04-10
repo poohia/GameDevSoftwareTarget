@@ -97,6 +97,9 @@ const useConfirmDialog = () => {
             buttons={buttonsActions}
             direction="row"
             delayBetweenButtons={0}
+            onClick={(key) => {
+              closeConfirm(key === "confirmation");
+            }}
           />
         </div>
       </ConfirmationContent>
