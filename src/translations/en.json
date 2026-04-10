@@ -99,11 +99,11 @@
     },
     {
         "key": "label_start_game",
-        "text": "Start Game",
+        "text": "New Game",
         "editable": true,
         "deletable": false,
-        "textComputer": "",
-        "textMobile": ""
+        "textComputer": null,
+        "textMobile": null
     },
     {
         "key": "label_no",
@@ -362,6 +362,14 @@
     {
         "key": "label_modal_close",
         "text": "Close",
+        "textComputer": null,
+        "textMobile": null,
+        "editable": true,
+        "deletable": true
+    },
+    {
+        "key": "label_start_game_warning",
+        "text": "Do you really want to restart? Your current progress will be deleted.",
         "textComputer": null,
         "textMobile": null,
         "editable": true,

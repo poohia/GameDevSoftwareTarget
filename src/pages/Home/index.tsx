@@ -58,7 +58,14 @@ const Home = () => {
   const handleClickButtonAction = useCallback((key: string) => {
     switch (key) {
       case "start_game":
-        startNewGame();
+        confirm({
+          title: "label_start_game",
+          message: "label_start_game_warning",
+        }).then((confirmation) => {
+          if (confirmation) {
+            startNewGame();
+          }
+        });
         break;
       case "continue":
         startGame();
@@ -81,16 +88,7 @@ const Home = () => {
     }
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      confirm({
-        title: "Nouvelle partie",
-        message: "Êtes vous sur de vouloir refaire une partie",
-      }).then((confirmation) => {
-        console.log("🚀 ~ Home ~ confirmation:", confirmation);
-      });
-    }, 1000);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <PageComponent>

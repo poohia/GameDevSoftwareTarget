@@ -144,7 +144,11 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
   const { loaded: loadedTheme, theme, ...restTheme } = useTheme(getAsset);
   const { loaded: loadedCache } = useCache(getAssetObject, getAsset);
-  const { ConfirmDialog, ...restConfirmDialog } = useConfirmDialog();
+  const {
+    loaded: loadedConfirmDialog,
+    ConfirmDialog,
+    ...restConfirmDialog
+  } = useConfirmDialog();
 
   useEffect(() => {
     if (
@@ -162,6 +166,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
       loadedTheme &&
       loadedCache &&
       loadedRefreshScene &&
+      loadedConfirmDialog &&
       !loaded
     ) {
       setLoaded(true);
@@ -182,6 +187,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
     loadedTheme,
     loadedCache,
     loadedRefreshScene,
+    loadedConfirmDialog,
   ]);
 
   return (

@@ -30,8 +30,8 @@ const ConfirmationPanel = styled.div`
   padding: 24px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: ${({ theme }) => theme.default_modal.background_color};
-  color: ${({ theme }) => theme.default_modal.color};
+  background: ${({ theme }) => theme.default_dialog_confirm.background};
+  color: ${({ theme }) => theme.default_dialog_confirm.color};
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 `;
 
@@ -107,10 +107,12 @@ const useConfirmDialog = () => {
       {
         idText: "label_no",
         key: "cancel",
+        animate: false,
       },
       {
         idText: "label_yes",
         key: "confirmation",
+        animate: false,
       },
     ],
     []
@@ -170,8 +172,8 @@ const useConfirmDialog = () => {
 
   return {
     loaded: true,
-    confirm,
     ConfirmDialog,
+    confirm,
   };
 };
 
