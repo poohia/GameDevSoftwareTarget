@@ -49,3 +49,4 @@ export { default as useHolidaysOverlay } from "./useHolidaysOverlay";
 export { default as useTheme } from "./useTheme";
 export { default as useCache } from "./useCache";
 export { default as useRefreshScene } from "./useRefreshScene";
+export { default as useConfirmDialog } from "./useConfirmDialog";

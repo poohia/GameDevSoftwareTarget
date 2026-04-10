@@ -28,6 +28,7 @@ import {
   useTheme,
   useCache,
   useRefreshScene,
+  useConfirmDialog,
 } from "./hooks";
 import useParameters from "./hooks/useParameters";
 
@@ -143,6 +144,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
   const { loaded: loadedTheme, theme, ...restTheme } = useTheme(getAsset);
   const { loaded: loadedCache } = useCache(getAssetObject, getAsset);
+  const { ConfirmDialog } = useConfirmDialog();
 
   useEffect(() => {
     if (
@@ -241,6 +243,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
             onSplashscreenFinished={() => showSplashscreen(false)}
           />
         )}
+        <ConfirmDialog />
       </ThemeProvider>
     </Ctx.Provider>
   );
