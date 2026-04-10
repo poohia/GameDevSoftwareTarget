@@ -144,7 +144,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
   const { loaded: loadedTheme, theme, ...restTheme } = useTheme(getAsset);
   const { loaded: loadedCache } = useCache(getAssetObject, getAsset);
-  const { ConfirmDialog } = useConfirmDialog();
+  const { ConfirmDialog, ...restConfirmDialog } = useConfirmDialog();
 
   useEffect(() => {
     if (
@@ -201,6 +201,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         ...useVibrateRest,
         ...restTheme,
         ...restRefreshScene,
+        ...restConfirmDialog,
         appConfig,
         parameters,
         env,

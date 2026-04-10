@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useGameProvider } from "../../gameProvider";
 import { ButtonClassicGroupComponent, PageComponent } from "../../components";
@@ -7,7 +7,8 @@ import ParametersComponent from "../../components/ModalComponent/ModalParameters
 import ModalGameConfigurationComponent from "../../components/ModalComponent/ModalParametersComponent/ModalGameConfigurationComponent";
 
 const Home = () => {
-  const { canContinue, startNewGame, startGame, push } = useGameProvider();
+  const { canContinue, startNewGame, startGame, push, confirm } =
+    useGameProvider();
   const [showParameters, setShowParameters] = useState<boolean>(false);
   const [showGameConfiguration, setShowGameConfiguration] =
     useState<boolean>(false);
@@ -78,6 +79,15 @@ const Home = () => {
         push("credits");
         break;
     }
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      confirm({
+        title: "Nouvelle partie",
+        message: "Êtes vous sur de vouloir refaire une partie",
+      });
+    }, 1000);
   }, []);
 
   return (
