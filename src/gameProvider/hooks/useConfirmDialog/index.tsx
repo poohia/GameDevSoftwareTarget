@@ -13,26 +13,67 @@ export type ConfirmationType = {
   message?: string;
 };
 
-const ConfirmationContent = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+const ConfirmationOverlay = styled.div`
+  position: fixed;
+  inset: 0;
   z-index: 9;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+`;
+
+const ConfirmationPanel = styled.div`
+  width: min(100%, 440px);
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: ${({ theme }) => theme.default_modal.background_color};
+  color: ${({ theme }) => theme.default_modal.color};
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+`;
+
+const ConfirmationHeader = styled.div`
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    font-size: clamp(1.1rem, 1rem + 0.3vw, 1.4rem);
+    line-height: 1.25;
+  }
+`;
+
+const ConfirmationBody = styled.div`
+  margin-bottom: 24px;
+
+  p {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    opacity: 0.92;
+  }
+`;
+
+const ConfirmationActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
   > div {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    max-width: 500px;
-    width: 80vw;
-    height: fit-content;
+  }
+  button {
+    min-height: 24px;
+    font-size: clamp(0.85rem, 0.75rem + 0.2vw, 1rem);
+    padding: clamp(0.4rem, 0.3rem + 0.4vw, 0.6rem)
+      clamp(1.4rem, 1.2rem + 0.7vw, 1rem);
+    max-width: 30%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px;
   }
 `;
 
@@ -64,17 +105,16 @@ const useConfirmDialog = () => {
   const buttonsActions = useMemo<ButtonClassicType[]>(
     () => [
       {
-        idText: "Annuler",
+        idText: "label_no",
         key: "cancel",
       },
       {
-        idText: "Confirmer",
+        idText: "label_yes",
         key: "confirmation",
       },
     ],
     []
   );
-  console.log("🚀 ~ useConfirmDialog ~ buttonsActions:", buttonsActions);
 
   const ConfirmDialog = useCallback<React.FC>(() => {
     if (!confirmation) {
@@ -82,31 +122,54 @@ const useConfirmDialog = () => {
     }
 
     return (
-      <ConfirmationContent>
-        <div>
-          <h2>
-            <TranslationComponent id={confirmation.title} />
-          </h2>
+      <ConfirmationOverlay
+        role="presentation"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) {
+            closeConfirm(false);
+          }
+        }}
+      >
+        <ConfirmationPanel
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="confirm-dialog-title"
+          aria-describedby={
+            confirmation.message ? "confirm-dialog-description" : undefined
+          }
+        >
+          <ConfirmationHeader>
+            <h2 id="confirm-dialog-title">
+              <TranslationComponent id={confirmation.title} />
+            </h2>
+          </ConfirmationHeader>
+
           {confirmation.message && (
-            <p>
-              <TranslationComponent id={confirmation.message} />
-            </p>
+            <ConfirmationBody>
+              <p id="confirm-dialog-description">
+                <TranslationComponent id={confirmation.message} />
+              </p>
+            </ConfirmationBody>
           )}
 
-          <ButtonClassicGroupComponent
-            buttons={buttonsActions}
-            direction="row"
-            delayBetweenButtons={0}
-            onClick={(key) => {
-              closeConfirm(key === "confirmation");
-            }}
-          />
-        </div>
-      </ConfirmationContent>
+          <ConfirmationActions>
+            <ButtonClassicGroupComponent
+              buttons={buttonsActions}
+              show
+              direction="row"
+              delayBetweenButtons={0}
+              onClick={(key) => {
+                closeConfirm(key === "confirmation");
+              }}
+            />
+          </ConfirmationActions>
+        </ConfirmationPanel>
+      </ConfirmationOverlay>
     );
-  }, [confirmation, closeConfirm]);
+  }, [buttonsActions, closeConfirm, confirmation]);
 
   return {
+    loaded: true,
     confirm,
     ConfirmDialog,
   };
