@@ -93,8 +93,9 @@ const useConfirmDialog = () => {
   const [confirmation, setConfirmation] = useState<ConfirmationType | null>(
     null
   );
-  const dialogRef = useRef<HTMLDivElement>(null);
   const resolverRef = useRef<((value: boolean) => void) | null>(null);
+
+  const dialogIsOpen = useMemo(() => confirmation !== null, [confirmation]);
 
   const confirm = useCallback((c: ConfirmationType) => {
     setConfirmation(c);
@@ -132,9 +133,9 @@ const useConfirmDialog = () => {
     }
 
     return (
-      <ConfirmationOverlay role="presentation" ref={dialogRef}>
+      <ConfirmationOverlay role="presentation">
         <ConfirmationPanel
-          role="alertdialog"
+          role="dialog"
           aria-modal="true"
           aria-labelledby="confirm-dialog-title"
           aria-describedby={
@@ -161,6 +162,7 @@ const useConfirmDialog = () => {
               show
               direction="row"
               delayBetweenButtons={0}
+              autoFocus
               onClick={(key) => {
                 closeConfirm(key === "confirmation");
               }}
@@ -172,31 +174,24 @@ const useConfirmDialog = () => {
   }, [buttonsActions, closeConfirm, confirmation]);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeConfirm(false);
-      }
-    };
+    if (dialogIsOpen) {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          closeConfirm(false);
+        }
+      };
 
-    window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [closeConfirm]);
-
-  useEffect(() => {
-    console.log("🚀 ~ useConfirmDialog ~ dialogRef:", dialogRef);
-    if (dialogRef.current) {
-      const timer = setTimeout(() => {
-        dialogRef.current?.focus();
-      }, 50);
-      return () => clearTimeout(timer);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
     }
-  }, [dialogRef]);
+  }, [dialogIsOpen, closeConfirm]);
 
   return {
     loaded: true,
+    dialogIsOpen,
     ConfirmDialog,
     confirm,
   };
