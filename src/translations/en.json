@@ -245,7 +245,7 @@
   },
   {
     "key": "label_button_notify_sr",
-    "text": "Vous avez débloqué du contenu",
+    "text": "You have unlocked content",
     "editable": true,
     "deletable": false,
     "textComputer": "",
