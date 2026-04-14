@@ -93,6 +93,7 @@ const useConfirmDialog = () => {
   const [confirmation, setConfirmation] = useState<ConfirmationType | null>(
     null
   );
+  const dialogRef = useRef<HTMLDivElement>(null);
   const resolverRef = useRef<((value: boolean) => void) | null>(null);
 
   const confirm = useCallback((c: ConfirmationType) => {
@@ -131,7 +132,7 @@ const useConfirmDialog = () => {
     }
 
     return (
-      <ConfirmationOverlay role="presentation">
+      <ConfirmationOverlay role="presentation" ref={dialogRef}>
         <ConfirmationPanel
           role="alertdialog"
           aria-modal="true"
@@ -183,6 +184,16 @@ const useConfirmDialog = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [closeConfirm]);
+
+  useEffect(() => {
+    console.log("🚀 ~ useConfirmDialog ~ dialogRef:", dialogRef);
+    if (dialogRef.current) {
+      const timer = setTimeout(() => {
+        dialogRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [dialogRef]);
 
   return {
     loaded: true,
