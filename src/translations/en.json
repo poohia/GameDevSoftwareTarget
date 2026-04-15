@@ -1,6 +1,6 @@
 [
   {
-    "key": "parameters_instant_text_reveal_normal",
+    "key": "parameters_screen_reader_enabled_normal",
     "text": "Normal",
     "editable": true,
     "deletable": false,
@@ -206,14 +206,22 @@
     "deletable": false
   },
   {
-    "key": "parameters_instant_text_reveal",
-    "text": "Instant text reveal",
+    "key": "parameters_screen_reader_enabled",
+    "text": "Screen reader",
     "editable": true,
     "deletable": false
   },
   {
-    "key": "parameters_instant_text_reveal_instant",
-    "text": "Instant",
+    "key": "parameters_screen_reader_enabled_desable",
+    "text": "Desable",
+    "editable": true,
+    "deletable": false,
+    "textComputer": null,
+    "textMobile": null
+  },
+  {
+    "key": "parameters_screen_reader_enabled_enable",
+    "text": "Enable",
     "editable": true,
     "deletable": false,
     "textComputer": null,
@@ -316,8 +324,8 @@
     "deletable": false
   },
   {
-    "key": "parameters_instant_text_reveal_description",
-    "text": "The \"Instant\" option displays the full text immediately, improving accessibility for screen reader users.",
+    "key": "parameters_screen_reader_enabled_description",
+    "text": "If you enable this option, the game will behave as optimally as possible for screen readers.",
     "textComputer": null,
     "textMobile": null,
     "editable": true,
