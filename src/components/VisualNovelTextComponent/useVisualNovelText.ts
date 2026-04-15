@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 
+import { useGameProvider } from "../../gameProvider";
+
 type useVisualNovelTextProps = {
   text: string;
 };
 
 const useVisualNovelText = ({ text }: useVisualNovelTextProps) => {
+  const {
+    parameters: { screenReaderEnabled },
+  } = useGameProvider();
   const [isTypingComplete, setIsTypingComplete] = useState<boolean>(false);
   const [forceInstant, setForceInstant] = useState<boolean>(false);
 
@@ -18,14 +23,26 @@ const useVisualNovelText = ({ text }: useVisualNovelTextProps) => {
   }, []);
 
   const resetTypingComplete = useCallback(() => {
-    setIsTypingComplete(false);
-    setForceInstant(false);
-  }, []);
+    if (!screenReaderEnabled) {
+      setIsTypingComplete(false);
+      setForceInstant(false);
+    }
+  }, [screenReaderEnabled]);
 
   useEffect(() => {
-    setIsTypingComplete(false);
-    setForceInstant(false);
+    if (!screenReaderEnabled) {
+      setIsTypingComplete(false);
+      setForceInstant(false);
+    }
   }, [text]);
+
+  useEffect(() => {
+    if (screenReaderEnabled) {
+      setIsTypingComplete(true);
+    } else {
+      setIsTypingComplete(false);
+    }
+  }, [screenReaderEnabled]);
 
   return {
     isTypingComplete,
