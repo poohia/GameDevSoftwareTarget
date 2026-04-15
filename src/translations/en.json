@@ -390,5 +390,13 @@
     "textMobile": null,
     "editable": true,
     "deletable": true
+  },
+  {
+    "key": "screen_reader_enabled_disable_other_funcs",
+    "text": "This feature is disabled when screen reader mode is enabled.",
+    "textComputer": null,
+    "textMobile": null,
+    "editable": true,
+    "deletable": true
   }
 ]

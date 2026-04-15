@@ -4,6 +4,11 @@
     "splashscreen_background": "#2b2b2b",
     "editable": false
   },
+  "screen_reader": {
+    "outline": "3px double black",
+    "outline_offset": "2px",
+    "editable": false
+  },
   "default_button": {
     "background_color": "@c:#111b2d",
     "color": "@c:#f5ede3",
