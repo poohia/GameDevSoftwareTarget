@@ -346,6 +346,12 @@
     "deletable": false
   },
   {
+    "key": "parameters_game_configuration_footer",
+    "text": "Game configuration navigation",
+    "editable": true,
+    "deletable": false
+  },
+  {
     "key": "game_configuration_next",
     "text": "Next",
     "editable": true,
