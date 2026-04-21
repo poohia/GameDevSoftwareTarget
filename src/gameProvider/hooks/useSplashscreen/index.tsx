@@ -44,7 +44,10 @@ const SplashscreenBrandContainer = styled.section<{
   }
 `;
 
-const SplashscreenGamePromotionContainer = styled.div<{ show: boolean }>`
+const SplashscreenGamePromotionContainer = styled.div<{
+  show: boolean;
+  $showBrowserWarn: boolean;
+}>`
   background-color: transparent;
   display: flex;
   flex-direction: column;
@@ -53,11 +56,25 @@ const SplashscreenGamePromotionContainer = styled.div<{ show: boolean }>`
   height: 100%;
   display: ${({ show }) => (show ? "block" : "none")};
   overflow: hidden;
+  cursor: ${({ $showBrowserWarn }) =>
+    $showBrowserWarn ? "pointer" : "default"};
   video {
     width: 101%;
     height: 101%;
     object-fit: cover;
     object-position: center;
+  }
+  .mobile-information {
+    font-size: 1.4rem;
+    animation: blink 1.5s ease-in-out infinite;
+    border: none;
+    background-color: transparent;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
   }
 `;
 let step = 1;
@@ -70,16 +87,22 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const SplashscreenBrandComponent: React.FC<{
+    haveVideoSplash: boolean;
     loadedGame: boolean;
     platform: Platform;
     onSplashscreenBrandFinished: () => void;
-  }> = ({ platform, loadedGame, onSplashscreenBrandFinished }) => {
+  }> = ({
+    haveVideoSplash,
+    platform,
+    loadedGame,
+    onSplashscreenBrandFinished,
+  }) => {
     const [showBrowserWarn, setShowBrowserWarn] = useState<boolean>(false);
 
     const click = useButtonHandleClick();
 
     useEffect(() => {
-      if (loadedGame) {
+      if (loadedGame && !haveVideoSplash) {
         const timeout = setTimeout(() => {
           if (!platform.includes("browser")) {
             onSplashscreenBrandFinished();
@@ -91,7 +114,7 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
           clearTimeout(timeout);
         };
       }
-    }, [platform, loadedGame]);
+    }, [platform, loadedGame, haveVideoSplash]);
 
     return (
       <SplashscreenBrandContainer
@@ -119,7 +142,7 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
         {!loadedGame && (
           <TranslationComponent id="splashscreen_loading" srOnly />
         )}
-        {showBrowserWarn && (
+        {showBrowserWarn && !haveVideoSplash && (
           <button className="mobile-information animate__animated animate__flash animate__infinite">
             <TranslationComponent id="splashscreen_warn_browser" />
           </button>
@@ -144,6 +167,10 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
     onVideoFinished,
   }) => {
     const refVideo = useRef<HTMLVideoElement>(null);
+    const [showBrowserWarn, setShowBrowserWarn] = useState<boolean>(false);
+    const [videoEnded, setVideoEnded] = useState<boolean>(false);
+
+    const click = useButtonHandleClick();
 
     useEffect(() => {
       if (refVideo.current) {
@@ -157,17 +184,44 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
       }
     }, [refVideo, onVideoLoaded]);
 
+    useEffect(() => {
+      if (loadedGame && videoEnded) {
+        if (!platform.includes("browser")) {
+          setTimeout(() => onVideoFinished(), 700);
+        } else {
+          setShowBrowserWarn(true);
+        }
+      }
+    }, [loadedGame, platform, videoEnded]);
+
     return (
-      <SplashscreenGamePromotionContainer show={show}>
+      <SplashscreenGamePromotionContainer
+        show={show}
+        $showBrowserWarn={showBrowserWarn}
+        onClick={(event) => {
+          if (showBrowserWarn) {
+            click(event, {
+              callback: () => {
+                onVideoFinished();
+              },
+            });
+          }
+        }}
+      >
         <VideoComponent
           onEnded={() => {
-            setTimeout(() => onVideoFinished(), 700);
+            setVideoEnded(true);
           }}
           ref={refVideo}
           autoPlay={false}
           muted
           src={source}
         />
+        {showBrowserWarn && (
+          <button className="mobile-information animate__animated animate__flash animate__infinite">
+            <TranslationComponent id="splashscreen_warn_browser" />
+          </button>
+        )}
       </SplashscreenGamePromotionContainer>
     );
   };
@@ -195,18 +249,11 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
       }
     }, []);
 
-    useEffect(() => {
-      if (videoSource === null) {
-        setTimeout(() => {
-          // onSplashscreenFinished();
-        }, 1400);
-      }
-    }, []);
-
     return (
       <div>
         {step === 1 && (
           <SplashscreenBrandComponent
+            haveVideoSplash={!!videoSource}
             loadedGame={loadedGame}
             platform={platform}
             onSplashscreenBrandFinished={onSplashscreenFinished}
