@@ -69,30 +69,29 @@ export interface useSplashscreenInterface
 const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  const showSplashscreen = useCallback((show: boolean) => {
-    setLoaded(!show);
-  }, []);
-
   const SplashscreenBrandComponent: React.FC<{
+    loadedGame: boolean;
     platform: Platform;
     onSplashscreenBrandFinished: () => void;
-  }> = ({ platform, onSplashscreenBrandFinished }) => {
+  }> = ({ platform, loadedGame, onSplashscreenBrandFinished }) => {
     const [showBrowserWarn, setShowBrowserWarn] = useState<boolean>(false);
 
     const click = useButtonHandleClick();
 
     useEffect(() => {
-      const timeout = setTimeout(() => {
-        if (!platform.includes("browser")) {
-          onSplashscreenBrandFinished();
-        } else {
-          setShowBrowserWarn(true);
-        }
-      }, 1400);
-      return () => {
-        clearTimeout(timeout);
-      };
-    }, [platform]);
+      if (loadedGame) {
+        const timeout = setTimeout(() => {
+          if (!platform.includes("browser")) {
+            onSplashscreenBrandFinished();
+          } else {
+            setShowBrowserWarn(true);
+          }
+        }, 500);
+        return () => {
+          clearTimeout(timeout);
+        };
+      }
+    }, [platform, loadedGame]);
 
     return (
       <SplashscreenBrandContainer
@@ -125,12 +124,20 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
   };
 
   const SplashscreenGamePromotion: React.FC<{
+    loadedGame: boolean;
     source: string;
     show: boolean;
     platform: Platform;
     onVideoLoaded: () => void;
     onVideoFinished: () => void;
-  }> = ({ source, show, platform, onVideoLoaded, onVideoFinished }) => {
+  }> = ({
+    source,
+    show,
+    loadedGame,
+    platform,
+    onVideoLoaded,
+    onVideoFinished,
+  }) => {
     const refVideo = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -161,8 +168,9 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
   };
 
   const SplashScreenComponent: React.FC<{
+    loadedGame: boolean;
     platform: Platform;
-  }> = ({ platform }) => {
+  }> = ({ loadedGame, platform }) => {
     const [_, setReload] = useState(false);
 
     const videoSource = useMemo(() => {
@@ -194,12 +202,14 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
       <div>
         {step === 1 && (
           <SplashscreenBrandComponent
+            loadedGame={loadedGame}
             platform={platform}
             onSplashscreenBrandFinished={onSplashscreenFinished}
           />
         )}
         {videoSource && (
           <SplashscreenGamePromotion
+            loadedGame={loadedGame}
             source={videoSource}
             show={step === 2}
             platform={platform}
@@ -217,7 +227,6 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
   return {
     loaded,
     SplashScreenComponent,
-    showSplashscreen,
   };
 };
 
