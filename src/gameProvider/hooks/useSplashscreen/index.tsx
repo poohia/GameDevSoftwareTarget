@@ -117,7 +117,7 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
         <TranslationComponent id="splashscreen_loading" srOnly />
         {showBrowserWarn && (
           <button className="mobile-information animate__animated animate__flash animate__infinite">
-            <TranslationComponent id="Appuyez pour continuer" />
+            <TranslationComponent id="splashscreen_warn_browser" />
           </button>
         )}
       </SplashscreenBrandContainer>

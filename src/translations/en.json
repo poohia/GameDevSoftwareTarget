@@ -404,5 +404,13 @@
     "textMobile": null,
     "editable": true,
     "deletable": true
+  },
+  {
+    "key": "splashscreen_warn_browser",
+    "text": "Click to continue",
+    "textComputer": "Click to continue",
+    "textMobile": "Tap to continue",
+    "editable": true,
+    "deletable": true
   }
 ]
