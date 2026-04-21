@@ -95,7 +95,9 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
 
     return (
       <SplashscreenBrandContainer
-        aria-labelledby="splashscreen_loading"
+        aria-labelledby={
+          loadedGame ? "splashscreen_warn_browser" : "splashscreen_loading"
+        }
         $showBrowserWarn={showBrowserWarn}
         onClick={(event) => {
           if (showBrowserWarn) {
@@ -106,6 +108,7 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
             });
           }
         }}
+        aria-live="polite"
       >
         <div aria-hidden="true">
           <img src={splashscreen.brandImage} alt="" />
@@ -113,7 +116,9 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
         <div aria-hidden="true">
           <span>{splashscreen.brandSlogan}</span>
         </div>
-        <TranslationComponent id="splashscreen_loading" srOnly />
+        {!loadedGame && (
+          <TranslationComponent id="splashscreen_loading" srOnly />
+        )}
         {showBrowserWarn && (
           <button className="mobile-information animate__animated animate__flash animate__infinite">
             <TranslationComponent id="splashscreen_warn_browser" />
