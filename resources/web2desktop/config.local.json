@@ -90,7 +90,7 @@
   },
   "plugins": {
     "Steam": {
-      "appId": 123456
+      "appId": null
     }
   }
 }
