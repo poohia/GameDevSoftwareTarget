@@ -43,3 +43,4 @@ cypress/cypress/screenshots/*
 chatgpt.json
 
 web2desktop
+!resources/web2desktop
