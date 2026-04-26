@@ -33,7 +33,7 @@
   "scripts": {
     "start": "vite --host",
     "build-react": "cross-env NODE_ENV=production npm-run-all --serial tsc vite-build",
-    "build": "cross-env NODE_ENV=production npm-run-all --serial tsc vite-build resources trapeze updateMainActivityAndroid sync",
+    "build": "cross-env NODE_ENV=production npm-run-all --serial tsc vite-build resources syncWeb2DesktopResources trapeze updateMainActivityAndroid sync",
     "build-demo": "cross-env DEMO=yes npm run build",
     "tsc": "tsc",
     "trapeze": "trapeze run app.yaml --android-project android --ios-project ios/App -y",
@@ -44,7 +44,8 @@
     "prettier": "prettier --write .",
     "resources": "npx capacitor-assets generate --android --ios",
     "sync": "yarn cap sync",
-    "updateMainActivityAndroid": "node scripts/updateMainActivity.js"
+    "updateMainActivityAndroid": "node scripts/updateMainActivity.js",
+    "syncWeb2DesktopResources": "node scripts/syncWeb2DesktopResources.js"
   },
   "keywords": [
     "ecosystem:cordova"
