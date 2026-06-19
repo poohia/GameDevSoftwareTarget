@@ -96,8 +96,11 @@ const GameProvider = ({ children }: GameProviderProps) => {
     refreshScene,
   });
 
-  const { loaded: loadedSplashscreen, SplashScreenComponent } =
-    useSplashscreen(getEnvVar);
+  const {
+    loaded: loadedSplashscreen,
+    SplashScreenComponent,
+    splashscreenInformations,
+  } = useSplashscreen(getEnvVar);
 
   const { loaded: loadedFonts, FontStyle, ...useFontsRest } = useFonts();
 
@@ -223,6 +226,8 @@ const GameProvider = ({ children }: GameProviderProps) => {
         background,
         primaryFont,
         isMobileDevice,
+        pagesConfig,
+        splashscreenInformations,
         setLocale,
         push,
         pushNextScene,
@@ -232,7 +237,6 @@ const GameProvider = ({ children }: GameProviderProps) => {
         getAsset,
         getAssetObject,
         refreshScene,
-        pagesConfig,
       }}
     >
       <ThemeProvider theme={theme}>
