@@ -33,9 +33,10 @@ import {
 } from "./hooks";
 import useParameters from "./hooks/useParameters";
 import pagesConfig from "../GameDevSoftware/pages.json";
-import { PagesConfigType } from "../types";
+import { PagesConfigType, SplashscreenType } from "../types";
 
 interface GameContextInterface extends GameProviderHooksInterface {
+  splashscreenInformations: SplashscreenType;
   pagesConfig: PagesConfigType;
 }
 

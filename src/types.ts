@@ -194,3 +194,9 @@ export type PagesConfigType = {
     }[];
   };
 };
+
+export type SplashscreenType = {
+  brandImage: string;
+  gamePromotionVideo: string;
+  brandSlogan: string;
+};
