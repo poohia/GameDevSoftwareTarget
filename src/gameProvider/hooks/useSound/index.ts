@@ -99,6 +99,7 @@ const useSound = (
       volume?: number;
       loop?: boolean;
       seek?: number;
+      onFinished?: () => void;
     }) => {
       let {
         sound,
@@ -106,6 +107,7 @@ const useSound = (
         volume = 1,
         loop = true,
         seek = 1,
+        onFinished,
       } = props;
 
       sound = sound.replace("@a:", "");
@@ -145,6 +147,7 @@ const useSound = (
               } else if (status === Media.MEDIA_STOPPED) {
                 musicsPlayed.delete(sound);
                 s.media.seekTo(1);
+                onFinished?.();
               }
             }
           ),
@@ -257,6 +260,7 @@ const useSound = (
       loop?: boolean;
       // If this prop is provided, it will take precedence over the soundsEffectActivatedFromParmas parameter in the total volume calculation
       ratio?: number;
+      onFinished?: () => void;
     }) => {
       if (appOnPause) {
         return;
@@ -269,6 +273,7 @@ const useSound = (
         loop = false,
         ratio = soundsEffectActivatedFromParmas,
         forcePlaySoundSavedEvenPlayed = false,
+        onFinished,
       } = props;
       if (!soundsEffectActivatedFromParmas) {
         releaseAllSoundEffect();
@@ -313,6 +318,7 @@ const useSound = (
               } else {
                 s.media.release();
               }
+              onFinished?.();
             } else if (status === Media.MEDIA_PAUSED && saveSoundEffect) {
               soundsEffectPlayed.delete(sound);
             }
