@@ -380,14 +380,6 @@
     "deletable": true
   },
   {
-    "key": "screen_reader_enabled_disable_other_funcs",
-    "text": "This feature is disabled when screen reader mode is enabled.",
-    "textComputer": null,
-    "textMobile": null,
-    "editable": true,
-    "deletable": true
-  },
-  {
     "key": "splashscreen_warn_browser",
     "text": "Click to continue",
     "textComputer": "Click to continue",
@@ -402,5 +394,13 @@
     "textMobile": null,
     "editable": true,
     "deletable": false
+  },
+  {
+    "key": "splashscreen_accessibility_question",
+    "text": "Are you visually impaired?",
+    "editable": true,
+    "deletable": false,
+    "textComputer": "",
+    "textMobile": ""
   }
 ]

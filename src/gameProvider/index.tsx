@@ -91,7 +91,11 @@ const GameProvider = ({ children }: GameProviderProps) => {
     ...useRouterRest
   } = useRouter();
   const { loaded: loadedEnv, env, demo, getEnvVar, ...useEnvRest } = useEnv();
-  const { loaded: loadedSave, ...useSaveRest } = useSave({
+  const {
+    loaded: loadedSave,
+    canContinue,
+    ...useSaveRest
+  } = useSave({
     demo,
     push,
     pushNextScene,
@@ -239,6 +243,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         isMobileDevice,
         pagesConfig,
         splashscreenInformations,
+        canContinue,
         setLocale,
         push,
         pushNextScene,
@@ -271,6 +276,18 @@ const GameProvider = ({ children }: GameProviderProps) => {
           <SplashScreenComponent
             loadedGame={loaded}
             platform={platform || "browser"}
+            canContinue={canContinue}
+            onAccessibilityAnswer={(visuallyImpaired) => {
+              if (!visuallyImpaired) {
+                useParametersRest.setSizeText("normal");
+                useParametersRest.setColorMode("normal");
+                useParametersRest.setScreenReaderEnabled(false);
+                return;
+              }
+              useParametersRest.setSizeText("tall");
+              useParametersRest.setColorMode("high-contrast");
+              useParametersRest.setScreenReaderEnabled(true);
+            }}
           />
         )}
         <ConfirmDialog />

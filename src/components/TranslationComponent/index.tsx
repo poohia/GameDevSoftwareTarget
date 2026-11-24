@@ -47,10 +47,7 @@ const TranslationComponent = (props: TranslationComponentProps) => {
     className: classList = "",
     ...rest
   } = props;
-  const {
-    parameters: { screenReaderEnabled },
-    translateText,
-  } = useGameProvider();
+  const { translateText } = useGameProvider();
 
   const options = useMemo(
     () => ({ capitalize, toLowercase, toUppercase }),
@@ -74,7 +71,7 @@ const TranslationComponent = (props: TranslationComponentProps) => {
   const className = useMemo(() => {
     let c = classList;
     if (srOnly) {
-      c += "sr-only";
+      c += " sr-only";
     }
     return c;
   }, [classList, srOnly]);
@@ -83,7 +80,7 @@ const TranslationComponent = (props: TranslationComponentProps) => {
     return <div>Translation not found</div>;
   }
 
-  if (/<\/?[a-z][\s\S]*>/i.test(text)) {
+  if (/<\/?[a-z][a-z0-9]*(\s[^<>]*)?\/?>/i.test(text)) {
     return (
       // @ts-ignore
       <TranslationComponentSpan
@@ -97,7 +94,7 @@ const TranslationComponent = (props: TranslationComponentProps) => {
     );
   }
 
-  if ((screenReaderEnabled && !srOnly) || textOnly) {
+  if (textOnly) {
     return <>{text}</>;
   }
 

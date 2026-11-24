@@ -78,7 +78,67 @@ const SplashscreenGamePromotionContainer = styled.div<{
     right: 10px;
   }
 `;
+const SplashscreenAccessibilityContainer = styled.section`
+  background-color: ${({ theme }) =>
+    theme.default?.splashscreen_background ?? "#2b2b2b"};
+  color: #ffffff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 24px;
+  text-align: center;
+
+  .splashscreen-accessibility-brand {
+    position: absolute;
+    right: calc(16px + var(--sar, 0px));
+    bottom: calc(16px + var(--sab, 0px));
+    width: clamp(48px, 9vw, 96px);
+    height: auto;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  h1 {
+    margin: 0;
+    max-width: 24ch;
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 2.5rem);
+    line-height: 1.4;
+  }
+
+  .splashscreen-accessibility-answers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  button {
+    min-width: 8rem;
+    min-height: 56px;
+    padding: 12px 32px;
+    font-family: inherit;
+    font-size: clamp(1.25rem, 2.5vw + 0.5rem, 2rem);
+    color: #ffffff;
+    background-color: transparent;
+    border: 3px solid #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:focus {
+      outline: 4px solid #ffd60a;
+      outline-offset: 3px;
+    }
+  }
+`;
+
 let step = 1;
+
 export interface useSplashscreenInterface
   extends
     GameProviderHooksDefaultInterface,
@@ -152,21 +212,60 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
     );
   };
 
+  const SplashscreenAccessibilityComponent: React.FC<{
+    onAnswer: (visuallyImpaired: boolean) => void;
+  }> = ({ onAnswer }) => {
+    const questionId = "splashscreen_accessibility_question";
+    const refAnswerNo = useRef<HTMLButtonElement>(null);
+
+    const click = useButtonHandleClick();
+
+    useEffect(() => {
+      refAnswerNo.current?.focus();
+    }, []);
+
+    const answer = (
+      event: React.MouseEvent<HTMLButtonElement>,
+      visuallyImpaired: boolean
+    ) => click(event, { callback: () => onAnswer(visuallyImpaired) });
+
+    return (
+      <SplashscreenAccessibilityContainer>
+        <h1>
+          <TranslationComponent id={questionId} />
+        </h1>
+        <div className="splashscreen-accessibility-answers">
+          <button
+            ref={refAnswerNo}
+            aria-describedby={questionId}
+            onClick={(event) => answer(event, false)}
+          >
+            <TranslationComponent id="label_no" />
+          </button>
+          <button
+            aria-describedby={questionId}
+            onClick={(event) => answer(event, true)}
+          >
+            <TranslationComponent id="label_yes" />
+          </button>
+        </div>
+        <img
+          className="splashscreen-accessibility-brand"
+          src={splashscreen.brandImage}
+          alt=""
+          aria-hidden="true"
+        />
+      </SplashscreenAccessibilityContainer>
+    );
+  };
+
   const SplashscreenGamePromotion: React.FC<{
-    loadedGame: boolean;
     source: string;
     show: boolean;
     platform: Platform;
     onVideoLoaded: () => void;
     onVideoFinished: () => void;
-  }> = ({
-    source,
-    show,
-    loadedGame,
-    platform,
-    onVideoLoaded,
-    onVideoFinished,
-  }) => {
+  }> = ({ source, show, platform, onVideoLoaded, onVideoFinished }) => {
     const refVideo = useRef<HTMLVideoElement>(null);
     const [showBrowserWarn, setShowBrowserWarn] = useState<boolean>(false);
     const [videoEnded, setVideoEnded] = useState<boolean>(false);
@@ -175,25 +274,28 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
 
     useEffect(() => {
       if (refVideo.current) {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           if (refVideo.current) {
             onVideoLoaded();
             refVideo.current.play();
             refVideo.current.playbackRate = 2.0;
           }
         }, 1500);
+        return () => {
+          clearTimeout(timeout);
+        };
       }
     }, [refVideo, onVideoLoaded]);
 
     useEffect(() => {
-      if (loadedGame && videoEnded) {
+      if (videoEnded) {
         if (!platform.includes("browser")) {
           setTimeout(() => onVideoFinished(), 700);
         } else {
           setShowBrowserWarn(true);
         }
       }
-    }, [loadedGame, platform, videoEnded]);
+    }, [platform, videoEnded]);
 
     return (
       <SplashscreenGamePromotionContainer
@@ -230,7 +332,9 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
   const SplashScreenComponent: React.FC<{
     loadedGame: boolean;
     platform: Platform;
-  }> = ({ loadedGame, platform }) => {
+    canContinue: boolean;
+    onAccessibilityAnswer: (visuallyImpaired: boolean) => void;
+  }> = ({ loadedGame, platform, canContinue, onAccessibilityAnswer }) => {
     const [_, setReload] = useState(false);
 
     const videoSource = useMemo(() => {
@@ -244,6 +348,31 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
       setLoaded(true);
     }, []);
 
+    const askAccessibility = !canContinue;
+
+    const onSplashscreenBrandFinished = useCallback(() => {
+      if (askAccessibility) {
+        step = 2;
+        setReload((reload) => !reload);
+        return;
+      }
+      onSplashscreenFinished();
+    }, [askAccessibility, onSplashscreenFinished]);
+
+    const onAnswerAccessibility = useCallback(
+      (visuallyImpaired: boolean) => {
+        onAccessibilityAnswer(visuallyImpaired);
+
+        if (!videoSource) {
+          onSplashscreenFinished();
+          return;
+        }
+
+        setReload((reload) => !reload);
+      },
+      [videoSource, onAccessibilityAnswer, onSplashscreenFinished]
+    );
+
     useEffect(() => {
       if (getEnv<boolean>("IGNORE_SPLASHSCREEN")) {
         setLoaded(true);
@@ -254,21 +383,25 @@ const useSplashscreen = (getEnv: useEnvInterface["getEnvVar"]) => {
       <div>
         {step === 1 && (
           <SplashscreenBrandComponent
-            haveVideoSplash={!!videoSource}
+            haveVideoSplash={!!videoSource && !askAccessibility}
             loadedGame={loadedGame}
             platform={platform}
-            onSplashscreenBrandFinished={onSplashscreenFinished}
+            onSplashscreenBrandFinished={onSplashscreenBrandFinished}
+          />
+        )}
+        {step === 2 && (
+          <SplashscreenAccessibilityComponent
+            onAnswer={onAnswerAccessibility}
           />
         )}
         {videoSource && (
           <SplashscreenGamePromotion
-            loadedGame={loadedGame}
             source={videoSource}
-            show={step === 2}
+            show={step === 3}
             platform={platform}
             onVideoLoaded={() => {
-              step = 2;
-              setReload(true);
+              step = 3;
+              setReload((reload) => !reload);
             }}
             onVideoFinished={onSplashscreenFinished}
           />

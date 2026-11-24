@@ -8,7 +8,6 @@ import ButtonClassicGroupComponent, {
 } from "../../../ButtonClassicGroupComponent";
 import { SizeTextTypes } from "../../../../types";
 import { ModalParametersComponentContainer } from "..";
-import TranslationComponent from "../../../TranslationComponent";
 
 export const ParametersAccessibilitySizeTextComponent: React.FC<{
   open: boolean;
@@ -16,7 +15,7 @@ export const ParametersAccessibilitySizeTextComponent: React.FC<{
   delayBetweenButtons?: ButtonClassicGroupComponentProps["delayBetweenButtons"];
 }> = ({ open, buttonsDirection, delayBetweenButtons }) => {
   const {
-    parameters: { sizeText, screenReaderEnabled },
+    parameters: { sizeText },
     setSizeText,
   } = useGameProvider();
 
@@ -45,16 +44,7 @@ export const ParametersAccessibilitySizeTextComponent: React.FC<{
   );
 
   return (
-    <ModalParametersComponentContainer
-      aria-describedby={
-        screenReaderEnabled
-          ? "screen_reader_enabled_disable_other_funcs"
-          : undefined
-      }
-    >
-      {screenReaderEnabled && (
-        <TranslationComponent id="screen_reader_enabled_disable_other_funcs" />
-      )}
+    <ModalParametersComponentContainer>
       <ButtonClassicGroupComponent
         buttons={buttonsAction}
         show={open}
@@ -63,7 +53,6 @@ export const ParametersAccessibilitySizeTextComponent: React.FC<{
         onClick={(key: string) => {
           setSizeText(key as SizeTextTypes);
         }}
-        disabled={!!screenReaderEnabled}
       />
     </ModalParametersComponentContainer>
   );
